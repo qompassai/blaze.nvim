@@ -1,0 +1,96 @@
+```
+*mojo.txt*  A 🔥.nvim Plugin Manual
+
+==============================================================================
+MOJO.NVIM                                                               *mojo*
+==============================================================================
+
+NAME
+    🔥.nvim - A Neovim plugin for the Mojo language
+
+DESCRIPTION
+    Provides syntax highlighting, indentation, Treesitter, formatting,
+    linting, debugging (DAP), and more for Mojo and *.🔥 files.
+
+INSTALLATION
+    Use Lazy.nvim, packer, or manual setup:
+
+        use({ "qompassai/🔥.nvim", ft = { "mojo", "🔥" } })
+
+COMMANDS                                                       *mojo-commands*
+
+  :Fever
+        Shows a health check for mojo.nvim features (LSP, format, lint, DAP).
+
+CHEAT SHEET                                                  *mojo-cheatsheet*
+
+  FILETYPE         :  mojo / 🔥
+
+  LSP              :  🔥-ls
+  Formatter        :  🔥-fmt (uses `mojo format` under the hood)
+  Linter           :  🔥-lint (via `nvim-lint`)
+  Debugger         :  🔥-dap (via `nvim-dap`)
+
+  KEY FEATURES:
+    - Treesitter parser for Mojo (via 🔥-ts)
+    - LSP integration (mojo-lsp)
+    - On-save formatting with `mojo format`
+    - Linting via `nvim-lint`
+    - DAP support for Mojo programs
+    - Custom lualine indicator
+
+  LUALINE EXAMPLE:
+    require("lualine").setup({
+      sections = {
+        lualine_c = {
+          "filename",
+          require("mojo.lualine").mojo_status,
+        },
+      },
+    })
+
+  STATUS LEGEND:
+    🔥     Mojo file detected
+    🔥-ls  LSP is active
+    🔥-fmt Formatter available
+    🔥-lint Linter detected
+    🔥-dap DAP session attached
+
+USAGE WITH TREE-SITTER                                     *mojo-treesitter*
+
+    If you're using `nvim-treesitter`, you can manually install:
+
+    ```lua
+    require("nvim-treesitter.parsers").get_parser_configs().mojo = {
+      install_info = {
+        url = "https://github.com/qompassai/🔥-ts",
+        files = { "src/parser.c", "src/grammar.js" },
+        branch = "main",
+        generate_requires_npm = true,
+        requires_generate_from_grammar = true,
+      },
+      filetype = "mojo",
+    }
+    ```
+
+MAPPING EXAMPLES                                             *mojo-mappings*
+
+    (These are just examples. Add to your config as desired.)
+
+    " Format current file:
+    nnoremap <leader>fm :lua vim.lsp.buf.format()<CR>
+
+    " Run Fever health check:
+    nnoremap <leader>fh :Fever<CR>
+
+SEE ALSO                                                     *mojo-links*
+
+    - 🔥-ts Tree-sitter Mojo grammar: https://github.com/qompassai/🔥-ts
+    - 🔥.nvim plugin repo       : https://github.com/qompassai/🔥.nvim
+    - mojo.vim (upstream)      : https://github.com/modularml/mojo.vim
+    - Tree-sitter              : https://tree-sitter.github.io/tree-sitter/
+    - Modular Mojo             : https://www.modular.com/mojo
+
+=============================================================================
+```
+

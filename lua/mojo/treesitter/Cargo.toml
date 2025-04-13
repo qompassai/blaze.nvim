@@ -1,0 +1,15 @@
+[package]
+name = "tree-sitter-mojo"
+version = "0.1.0"
+edition = "2024"
+
+[lib]
+path = "mojo/bindings/lib.rs"
+crate-type = ["cdylib"]
+
+[dependencies]
+tree-sitter = "0.20"
+
+[build-dependencies]
+cc = "1.0"
+

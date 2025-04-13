@@ -1,0 +1,11 @@
+{
+  "runtime": {
+    "version": "LuaJIT"
+  },
+  "diagnostics": {
+    "globals": ["vim", "require"]
+  },
+  "workspace": {
+    "library": ["${3rd}/luv/library", "${3rd}/vim/library"]
+  }
+}

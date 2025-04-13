@@ -1,0 +1,6 @@
+-- .luacheckrc
+globals = {
+  "vim",
+  "require",
+}
+
