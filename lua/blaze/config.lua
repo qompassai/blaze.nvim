@@ -1,4 +1,4 @@
--- lua/mojo/config.lua
+-- lua/blaze/config.lua
 
 local M = {}
 
@@ -18,12 +18,11 @@ function M.setup(user_opts)
   user_opts = user_opts or {}
   M.options = vim.tbl_deep_extend("force", {}, M.options, user_opts)
 
-  require("mojo").setup(M.options)
+  require("blaze").setup(M.options)
 
   if M.options.keymaps then
-    require("mojo.keymaps").setup()
+    require("blaze.keymaps").setup()
   end
 end
 
 return M
-

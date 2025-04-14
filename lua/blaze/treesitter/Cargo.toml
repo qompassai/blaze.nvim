@@ -1,13 +1,14 @@
 [package]
-name = "tree-sitter-mojo"
+name = "blaze-ts"
 version = "0.1.0"
 edition = "2024"
 
 [lib]
-path = "mojo/bindings/lib.rs"
+path = "blaze/bindings/lib.rs"
 crate-type = ["cdylib"]
 
 [dependencies]
+pixi = "0.45.0"
 tree-sitter = "0.20"
 
 [build-dependencies]

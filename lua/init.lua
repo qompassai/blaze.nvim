@@ -5,6 +5,8 @@ local function get_mojo_cmd()
     vim.env.HOME .. "/.local/bin/mojo",
     "/usr/local/bin/mojo",
     "/usr/bin/mojo",
+     vim.env.PIXI_HOME and vim.env.PIXI_HOME .. "/bin/" or nil,
+    vim.env.MAGIC_HOME and vim.env.MAGIC_HOME .. "/bin/" or nil
   }
   for _, path in ipairs(paths) do
     if vim.fn.executable(path) == 1 then

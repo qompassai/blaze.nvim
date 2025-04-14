@@ -1,6 +1,6 @@
-# 🔥.nvim
+# blaze.nvim
 
-## A mojo.vim fork for the Neovim enthusiast
+## A blazingly fast mojo.vim fork
 
 <p align="center">
   <a href="https://www.gnu.org/licenses/agpl-3.0">
@@ -13,7 +13,8 @@
 
 ## 📦 Features
 
-- 🔥 Tree-sitter support via `🔥-ts`
+- ❤️‍🔥 Full integration with Modular's Magic-CLI & Pixi
+- 🔥 Tree-sitter support via `blaze-ts`
 - 💡 Autoformatting with `🔥-fmt`
 - 🧪 Diagnostics with `null-ls`
 - 🐞 Debugging via DAP
@@ -23,13 +24,13 @@
 
 ---
 
-## ⚙️ How to setup Mojo syntax highlighting
+## ⚙️ How to setup 🔥 syntax highlighting
 
 1. Add Mojo config files to your Neovim config:
 
     ```bash
     for FOLDER in autoload ftdetect ftplugin indent syntax; do
-    mkdir -p ~/.config/nvim/$FOLDER && ln -s $FOLDER/🔥.nvim ~/.config/nvim/$FOLDER/🔥.nvim
+    mkdir -p ~/.config/nvim/$FOLDER && ln -s $FOLDER/blaze.nvim ~/.config/nvim/$FOLDER/blaze.nvim
     done
     ```
 
@@ -41,10 +42,10 @@
 
 -- 👉 For lazy.nvim
 {
-  "qompassai/🔥.nvim",
+  "qompassai/blaze.nvim",
   ft = { "mojo", "🔥" },
   config = function()
-    require("mojo.config").setup({
+    require("blaze.config").setup({
       format_on_save = true,
       enable_linting = true,
       dap = { enabled = true },
@@ -55,10 +56,10 @@
 
 -- 👉 For packer.nvim
 use({
-  "qompassai/🔥.nvim",
+  "qompassai/blaze.nvim",
   ft = { "mojo", "🔥" },
   config = function()
-    require("mojo.config").setup({
+    require("blaze.config").setup({
       format_on_save = true,
       enable_linting = true,
       dap = { enabled = true },
@@ -67,7 +68,7 @@ use({
 })
 
 -- 👉 Manual Lua setup in your config (e.g., ~/.config/nvim/init.lua or after plugin loads)
-require("mojo.config").setup({
+require("blaze.config").setup({
   format_on_save = true,
   enable_linting = true,
   keymaps = true, -- Optional which-key mappings
@@ -81,7 +82,7 @@ require("lualine").setup({
   sections = {
     lualine_c = {
       "filename",
-      require("mojo.lualine").mojo_status,
+      require("blaze.lualine").blaze_status,
     },
   },
 })
@@ -128,11 +129,11 @@ If `keymaps = true`, the following mappings are automatically registered:
 
 | Path                        | Purpose                                 |
 |-----------------------------|-----------------------------------------|
-| `lua/mojo/treesitter/`      | Tree-sitter grammar files               |
-| `lua/mojo/formatting.lua`   | Handles formatting with `mojo format`   |
-| `lua/mojo/linting.lua`      | Integrates with `nvim-lint`             |
-| `lua/mojo/dap.lua`          | Debug adapter setup via `nvim-dap`      |
-| `plugin/mojo.lua`           | Runtime plugin loader for Neovim        |
+| `lua/blaze/treesitter/`      | Tree-sitter grammar files               |
+| `lua/blaze/formatting.lua`   | Handles formatting with `mojo format`   |
+| `lua/blaze/linting.lua`      | Integrates with `nvim-lint`             |
+| `lua/blaze/dap.lua`          | Debug adapter setup via `nvim-dap`      |
+| `plugin/blaze.lua`           | Runtime plugin loader for Neovim        |
 
 ## 🧰 Dependencies
 

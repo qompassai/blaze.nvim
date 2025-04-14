@@ -1,3 +1,4 @@
+-- lua/blaze/health.lua
 local health = vim.health or require("health")
 local M = {}
 
@@ -17,7 +18,7 @@ end
 
 
 function M.check()
-  health.report_start("🔥.nvim: Mojo Neovim plugin")
+  health.report_start("blaze.nvim: 🌡️ check")
 
   check_exec("mojo")
 
@@ -25,7 +26,7 @@ function M.check()
   if ok_ts and parsers.get_parser_configs().mojo then
     health.report_ok("Tree-sitter parser 'mojo' installed")
   elseif ok_ts then
-    health.report_warn("Tree-sitter is installed but 'mojo' parser not configured")
+    health.report_warn("Tree-sitter is installed but '🔥' parser not configured")
   else
     health.report_error("nvim-treesitter not found")
   end
@@ -46,4 +47,3 @@ function M.check()
 end
 
 return M
-

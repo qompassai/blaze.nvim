@@ -24,9 +24,11 @@ The following behaviors are considered unacceptable under this Code of Conduct:
 - Any conduct deemed inappropriate by Qompass AI maintainers in alignment with the spirit of this community
 
 Decisions regarding enforcement are made at the discretion of the Qompass AI moderation team to protect the safety and integrity of the project.
+
 ## 🛠 Enforcement
 
 Maintainers may:
+
 - Give warnings
 - Temporarily ban users
 - Permanently ban repeat offenders
@@ -35,5 +37,4 @@ Maintainers may:
 
 Please report abuse or violations by opening a confidential GitHub issue or contacting the maintainers directly.
 
-Thank you for helping make 🔥.nvim a respectful and inclusive space ❤️
-
+Thank you for helping make blaze.nvim a respectful and inclusive space ❤️

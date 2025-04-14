@@ -1,6 +1,6 @@
--- lua/mojo/keymaps.lua
+-- lua/blaze/keymaps.lua
 
--- Nerd Translate Legend for 🔥.nvim kaymappings
+-- Nerd Translate Legend for blaze.nvim kaymappings
 
  -- '🔥 Mojo': The Mojo programming language.
 -- 'Magic': A tool that helps manage Mojo projects, dependencies, and builds.
@@ -49,7 +49,7 @@ M.setup = function()
 
   local fallback_mappings = {
     { "<leader>mf", run_mojo_format, "🔥 Format" },
-    { "<leader>mh", "<cmd>Fever<CR>", "🌧️ Run health check" },
+    { "<leader>mh", "<cmd>Fever<CR>", "🌡️ Run health check" },
     { "<leader>mi", "<cmd>!magic install mojo<CR>", "❤️‍🔥 Install 🔥" },
     { "<leader>mu", "<cmd>!magic update<CR>", "📦 Update dependencies" },
     { "<leader>ml", "<cmd>!magic lock<CR>", "🔒 Lock dependencies" },
@@ -71,7 +71,7 @@ M.setup = function()
         name = "+🔥 Mojo",
         f = { run_mojo_format, "🔥 Format via magic" },
         h = { "<cmd>Fever<CR>", "🌧️ Health Check" },
-        i = { "<cmd>!magic install mojo<CR>", "❤️🔥 Install Mojo" },
+        i = { "<cmd>!magic install mojo<CR>", "❤️🔥 Install 🔥" },
         u = { "<cmd>!magic update<CR>", "📦 Update deps" },
         l = { "<cmd>!magic lock<CR>", "🔒 Lock env" },
         x = { "<cmd>!magic exec<CR>", "🧙‍♂️ Exec shell cmd" },
@@ -90,7 +90,7 @@ M.setup = function()
         map("n", "<leader>mf", run_mojo_format, vim.tbl_extend("force", opts, { desc = "🔥 Format" })),
         -- In Normal mode: <leader> + m + f — Format Mojo file
 
-        map("n", "<leader>mh", "<cmd>Fever<CR>", vim.tbl_extend("force", opts, { desc = "🌧️ Run health check" })),
+        map("n", "<leader>mh", "<cmd>Fever<CR>", vim.tbl_extend("force", opts, { desc = "🌡️ Run health check" })),
         -- In Normal mode: <leader> + m + h — Run Fever health check
 
         map("n", "<leader>mi", "<cmd>!magic install mojo<CR>", vim.tbl_extend("force", opts, { desc = "❤️‍🔥 Install 🔥" })),

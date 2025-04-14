@@ -1,4 +1,4 @@
--- Mojo indentation configuration
+-- 🔥 indentation configuration
 local M = {}
 
 -- Mojo indentation configuration

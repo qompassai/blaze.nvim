@@ -1,33 +1,38 @@
-# Contributing to 🔥.nvim
+# Contributing to blaze.nvim
 
-Thank you for considering a contribution to **🔥.nvim**! Whether it’s a bug fix, feature, documentation update, or performance improvement — your help is appreciated. 🙏
+Thank you for considering a contribution to **blaze.nvim**! Whether it’s a bug fix, feature, documentation update, or performance improvement — your help is appreciated. 🙏
 
 ---
 
 ## 🚀 Getting Started
 
 1. **Fork and Clone the Repository**
+
    ```bash
-   git clone https://github.com/YOUR_USERNAME/🔥.nvim
-   cd 🔥.nvim
+   git clone https://github.com/qompassai/blaze.nvim
+   cd blaze.nvim
    ```
 
 2. **Create a New Branch**
+
    ```bash
    git checkout -b feat/your-new-feature
    ```
 
 3. **Make Changes**
+
    - Use **2-space indentation** (Lua convention)
    - Format with [`stylua`](https://github.com/JohnnyMorganz/StyLua)
    - Follow Neovim plugin Lua style conventions
 
 4. **Test and Lint**
+
    - Check formatting
    - Run `:Fever` (healthcheck)
    - Test Tree-sitter grammar if applicable
 
 5. **Commit and Push**
+
    ```bash
    git commit -m "feat: add feature or fix"
    git push origin feat/your-new-feature
@@ -42,6 +47,7 @@ Thank you for considering a contribution to **🔥.nvim**! Whether it’s a bug 
 ## 🐞 Bug Reports & Feature Requests
 
 Use the [GitHub Issues](https://github.com/qompassai/🔥.nvim/issues) tab to:
+
 - Report bugs (with reproduction steps if possible)
 - Propose features or improvements
 - Ask questions
@@ -72,4 +78,3 @@ Use the [GitHub Issues](https://github.com/qompassai/🔥.nvim/issues) tab to:
 ## 📜 License
 
 By contributing, you agree to license your changes under the same dual AGPL-3.0 and Q-CDA terms used in the main repository.
-

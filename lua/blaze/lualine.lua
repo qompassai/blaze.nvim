@@ -1,4 +1,4 @@
--- lua/mojo/lualine.lua
+-- lua/blaze/lualine.lua
 
 local M = {}
 
@@ -48,4 +48,3 @@ function M.mojo_status()
 end
 
 return M
-

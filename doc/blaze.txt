@@ -1,12 +1,12 @@
 ```
-*mojo.txt*  A 🔥.nvim Plugin Manual
+*blaze.txt*  A blaze.nvim Plugin Manual
 
 ==============================================================================
-MOJO.NVIM                                                               *mojo*
+BLAZE.NVIM                                                               *🔥*
 ==============================================================================
 
 NAME
-    🔥.nvim - A Neovim plugin for the Mojo language
+    blaze.nvim - Your blazingly fast neovim 🔥 plugin
 
 DESCRIPTION
     Provides syntax highlighting, indentation, Treesitter, formatting,
@@ -15,14 +15,14 @@ DESCRIPTION
 INSTALLATION
     Use Lazy.nvim, packer, or manual setup:
 
-        use({ "qompassai/🔥.nvim", ft = { "mojo", "🔥" } })
+        use({ "qompassai/blaze.nvim", ft = { "mojo", "🔥" } })
 
 COMMANDS                                                       *mojo-commands*
 
   :Fever
-        Shows a health check for mojo.nvim features (LSP, format, lint, DAP).
+        Shows a health check for blaze.nvim features (LSP, format, lint, DAP).
 
-CHEAT SHEET                                                  *mojo-cheatsheet*
+CHEAT SHEET                                                  *🔥-cheatsheet*
 
   FILETYPE         :  mojo / 🔥
 
@@ -31,12 +31,12 @@ CHEAT SHEET                                                  *mojo-cheatsheet*
   Linter           :  🔥-lint (via `nvim-lint`)
   Debugger         :  🔥-dap (via `nvim-dap`)
 
-  KEY FEATURES:
-    - Treesitter parser for Mojo (via 🔥-ts)
+  KEY FEATURES IN ACTIVE DEVELOPMENT:
+    - Treesitter parser for 🔥 (via blaze-ts)
     - LSP integration (mojo-lsp)
     - On-save formatting with `mojo format`
     - Linting via `nvim-lint`
-    - DAP support for Mojo programs
+    - DAP support for 🔥 programs
     - Custom lualine indicator
 
   LUALINE EXAMPLE:
@@ -44,26 +44,26 @@ CHEAT SHEET                                                  *mojo-cheatsheet*
       sections = {
         lualine_c = {
           "filename",
-          require("mojo.lualine").mojo_status,
+          require("blaze.lualine").🔥_status,
         },
       },
     })
 
   STATUS LEGEND:
-    🔥     Mojo file detected
+    🔥     🔥 file detected
     🔥-ls  LSP is active
     🔥-fmt Formatter available
     🔥-lint Linter detected
     🔥-dap DAP session attached
 
-USAGE WITH TREE-SITTER                                     *mojo-treesitter*
+USAGE WITH TREE-SITTER                                     *blaze-ts*
 
     If you're using `nvim-treesitter`, you can manually install:
 
     ```lua
     require("nvim-treesitter.parsers").get_parser_configs().mojo = {
       install_info = {
-        url = "https://github.com/qompassai/🔥-ts",
+        url = "https://github.com/qompassai/blaze-ts",
         files = { "src/parser.c", "src/grammar.js" },
         branch = "main",
         generate_requires_npm = true,
@@ -73,7 +73,7 @@ USAGE WITH TREE-SITTER                                     *mojo-treesitter*
     }
     ```
 
-MAPPING EXAMPLES                                             *mojo-mappings*
+MAPPING EXAMPLES                                             *🔥-mappings*
 
     (These are just examples. Add to your config as desired.)
 
@@ -83,11 +83,11 @@ MAPPING EXAMPLES                                             *mojo-mappings*
     " Run Fever health check:
     nnoremap <leader>fh :Fever<CR>
 
-SEE ALSO                                                     *mojo-links*
+SEE ALSO                                                     *🔥-links*
 
-    - 🔥-ts Tree-sitter Mojo grammar: https://github.com/qompassai/🔥-ts
-    - 🔥.nvim plugin repo       : https://github.com/qompassai/🔥.nvim
-    - mojo.vim (upstream)      : https://github.com/modularml/mojo.vim
+    - blaze-ts Tree-sitter Mojo grammar: https://github.com/qompassai/blaze-ts
+    - blaze.nvim plugin repo       : https://github.com/qompassai/blaze.nvim
+    - mojo.vim                   : https://github.com/modularml/mojo.vim
     - Tree-sitter              : https://tree-sitter.github.io/tree-sitter/
     - Modular Mojo             : https://www.modular.com/mojo
 

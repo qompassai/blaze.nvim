@@ -1,0 +1,4 @@
+# .gitattributes
+*.mojo filter=xet diff=xet merge=xet -text
+*.bin filter=xet diff=xet merge=xet -text
+

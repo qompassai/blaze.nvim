@@ -6,9 +6,7 @@
       "camelcase": "Mojo",
       "title": "Mojo",
       "scope": "source.mojo",
-      "file-types": [
-        "mojo"
-      ],
+      "file-types": ["mojo"],
       "injection-regex": "^mojo$",
       "class-name": "TreeSitterMojo"
     }
@@ -16,16 +14,16 @@
   "metadata": {
     "version": "0.1.0",
     "license": "AGPL-3.0 AND Q-CDA",
-    "description": "Tree-sitter grammar for the Mojo language",
+    "description": "🔥 Tree-sitter for the Mojo language",
     "authors": [
       {
         "name": "Matt A. Porter",
         "email": "map@qompass.ai",
-        "url": "https://github.com/phaedrusflow"
+        "url": "https://github.com/qompassai"
       }
     ],
     "links": {
-      "repository": "https://github.com/qompassai/tree-sitter-mojo",
+      "repository": "https://github.com/qompassai/blaze-ts",
       "funding": "https://www.buymeacoffee.com/phaedrusflow"
     }
   },
@@ -39,3 +37,4 @@
     "zig": false
   }
 }
+

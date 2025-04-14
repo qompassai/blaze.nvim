@@ -9,7 +9,7 @@ if FileManager.default.fileExists(atPath: "src/scanner.c") {
 }
 
 let package = Package(
-    name: "TreeSitterMojo",
+    name: "blaze-ts",
     products: [
         .library(name: "TreeSitterMojo", targets: ["TreeSitterMojo"]),
     ],
