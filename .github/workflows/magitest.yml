@@ -1,0 +1,20 @@
+name: Self-Hosted Magic Tests
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  trigger-tests:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: SSH into Self-Hosted Server and Run Tests
+        uses: appleboy/ssh-action@v0.1.5
+        with:
+          host: ${{ secrets.SERVER_IP }}
+          username: phaedrus
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          script: |
+            cd ~/.ansible && ansible-playbook playbooks/run_magic_tests.yml -i inventory/hosts.ini --ask-become-pass

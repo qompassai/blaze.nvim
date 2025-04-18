@@ -3,9 +3,11 @@
     "version": "LuaJIT"
   },
   "diagnostics": {
-    "globals": ["vim", "require"]
+    "globals": ["vim", "require", "describe", "it", "before_each", "after_each", 
+      "setup", "teardown", "pending", "spy", "stub"]
   },
   "workspace": {
-    "library": ["${3rd}/luv/library", "${3rd}/vim/library"]
+    "library": ["${3rd}/luv/library", "${3rd}/vim/library", "${3rd}/luassert/library",
+      "${3rd}/plenary.nvim/lua"]
   }
 }

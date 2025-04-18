@@ -1,0 +1,5 @@
+{
+  "dependencies": {
+    "@highlightjs/cdn-assets": "^11.11.1"
+  }
+}

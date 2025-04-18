@@ -7,7 +7,6 @@ function M.setup()
     return
   end
 
-  -- Define custom 🔥 linter using `mojo format`
   lint.linters.mojo_format = {
     cmd = "mojo",
     stdin = false,

@@ -1,4 +1,4 @@
--- syntax/mojo.lua
+-- syntax/blaze.lua
 -- Converted from Vimscript to Lua-compatible Neovim syntax registration
 -- Includes full highlighting rules from legacy mojo.vim
 

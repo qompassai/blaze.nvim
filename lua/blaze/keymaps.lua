@@ -38,7 +38,7 @@ local function run_mojo_format()
       end,
     })
   else
-    vim.notify("mojo executable not found in PATH", vim.log.levels.WARN)
+    vim.notify("🔥 executable not found in PATH", vim.log.levels.WARN)
   end
 end
 

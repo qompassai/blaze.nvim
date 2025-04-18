@@ -13,8 +13,6 @@ function M.setup()
     },
     filetype = "mojo" ,
   }
-
-   -- 2. Filetype detection
   vim.filetype.add({
     extension = {
       mojo = "mojo",
