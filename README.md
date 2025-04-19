@@ -52,7 +52,7 @@
       keymaps = true,
     })
   end,
-},
+}
 
 ```
 
