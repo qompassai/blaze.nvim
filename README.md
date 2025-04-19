@@ -1,7 +1,7 @@
 # blaze.nvim
 
 ## A blazingly fast mojo.vim fork
-
+** Under Active development expect breaking changes until release**
 <p align="center">
   <a href="https://www.gnu.org/licenses/agpl-3.0">
     <img src="https://img.shields.io/badge/License-AGPL%20v3-blue.svg" alt="License: AGPL v3">
@@ -43,6 +43,7 @@
 -- 👉 For lazy.nvim
 {
   "qompassai/blaze.nvim",
+  lazy = true,
   ft = { "mojo", "🔥" },
   config = function()
     require("blaze.config").setup({
@@ -70,6 +71,7 @@ use({
   end,
 })
 ```
+
 ```lua
 -- 👉 Manual Lua setup in your config (e.g., ~/.config/nvim/init.lua or after plugin loads)
 require("blaze.config").setup({
