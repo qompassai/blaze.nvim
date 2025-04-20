@@ -1,6 +1,6 @@
 -- tests/api/command_spec.lua
 ---@diagnostic disable: undefined-global
-local assert = require("luassert")
+--local assert = require("luassert")
 
 describe("Magic List functionality", function()
   before_each(function()

@@ -1,6 +1,6 @@
 -- tests/api/magic_spec.lua
 ---@diagnostic disable: undefined-global
-local assert = require("luassert")
+--local assert = require("luassert")
 
 describe("Blaze Magic Module", function()
   local magic_binary_path = "/mock/path/to/magic"

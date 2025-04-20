@@ -8,9 +8,14 @@ return {
   end,
   dependencies = {
    "qompassai/blaze-ts",
-   "mason/nvim-lsp",
+   "williamboman/mason.nvim",
+  "williamboman/mason-lspconfig.nvim",
+   "neovim/nvim-lspconfig",
     "mfussenegger/nvim-dap",
     "rcarriga/nvim-dap-ui",
+    "jay-babu/mason-nvim-dap.nvim",
     "mfussenegger/nvim-dap-python",
+    "nvimtools/none-ls.nvim",
+    "zeioth/none-ls-autoload.nvim",
   }
 }
