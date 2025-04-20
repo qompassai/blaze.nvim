@@ -49,7 +49,7 @@ return {
     'lua/blaze/queries',
   },
   install = {
-    lua = {}, -- already handled by `modules`
+    lua = {},
     conf = {
       ['share/nvim/site/pack/packer/start/blaze.nvim'] = {
         'plugin',

@@ -1,7 +1,7 @@
 -- tests/api/init_spec.lua
 -- luacheck: globals describe it before_each it assert spy require
 ---@diagnostic disable: unused-local, undefined-global, undefined-field
-local _ = require('helpers')
+local helpers = require('helpers')
 local spy = require('luassert.spy')
 
 
@@ -43,3 +43,17 @@ describe("blaze/init.lua", function()
     assert.spy(pixi.setup).was.called_with(cfg)
   end)
 end)
+
+vim.tbl_deep_extend = function(_, ...)
+  local result = {}
+  for _, t in ipairs({...}) do
+    if type(t) == "table" then
+      for k, v in pairs(t) do
+        result[k] = v
+      end
+    end
+  end
+  return result
+end
+
+return {}
