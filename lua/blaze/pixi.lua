@@ -1,5 +1,11 @@
 --/blaze/lua/pixi.lua
+---@class vim.var_accessor
+---@field is_pixi_project boolean
 local M = {}
+
+M.is_windows = vim.fn.has('win32') == 1
+M.is_mac = vim.fn.has('macunix') == 1
+M.is_linux = vim.fn.has('unix') == 1 and not M.is_mac
 
 M.config = {
   bin = nil,
@@ -7,10 +13,55 @@ M.config = {
   auto_detect = true,
   notify = true,
   output = {
-    split = "horizontal", -- or "vertical", "tab", "float"
-    height = 15, -- height of output window
+    split = "horizontal",
+    height = 15,
   }
 }
+
+M.get_pixi_path = function()
+  if M.is_windows then
+    return vim.env.LOCALAPPDATA and vim.env.LOCALAPPDATA .. "\\pixi\\bin\\pixi.exe" or nil
+  elseif M.is_mac then
+    return vim.env.HOME .. "/.pixi/bin/pixi"
+  else
+    return vim.env.HOME .. "/.pixi/bin/pixi"
+  end
+end
+
+M.is_available = function()
+  local pixi_path = M.get_pixi_path()
+  if pixi_path and vim.fn.executable(pixi_path) == 1 then
+    return true
+  end
+  local pixi_cmd = M.is_windows and "pixi.exe" or "pixi"
+  return vim.fn.executable(pixi_cmd) == 1
+end
+
+function M.get_env_settings()
+  local settings = {
+    python_version = ">=3.8,<3.12",
+    packages = {
+      "numpy>=1.24",
+      "pandas>=2.0",
+      "matplotlib>=3.7",
+      "ipykernel>=6.0",
+    },
+  }
+
+ if M.is_windows then
+    settings.python_version = "3.8"
+    table.insert(settings.packages, "pywin32>=305")
+  elseif M.is_mac then
+    settings.python_version = ">=3.9"
+    table.insert(settings.packages, "tensorflow-macos>=2.12")
+    table.insert(settings.packages, "tensorflow-metal>=0.9")
+  else
+    table.insert(settings.packages, "tensorflow>=2.12")
+    table.insert(settings.packages, "pytorch>=2.0")
+  end
+  return settings
+end
+
 
 function M.setup(opts)
   M.config = vim.tbl_deep_extend("force", M.config, opts or {})
@@ -51,7 +102,6 @@ function M.find_pixi_binary()
   return nil
 end
 
--- TO DO Show pixi environment information in a float window
 function M.show_env_info()
   M.run_command("info", "", {
     callback = function(output, success)
@@ -60,10 +110,8 @@ function M.show_env_info()
         return
       end
 
-      -- Basic parsing of the output
       local info = M.parse_pixi_info(output)
 
-      -- Display in a float window
       local buf = vim.api.nvim_create_buf(false, true)
       local width = 60
       local height = 20
@@ -78,7 +126,6 @@ function M.show_env_info()
         title = "Pixi Environment Info",
       })
 
-      -- Set content
       local lines = {}
       for section, data in pairs(info) do
         table.insert(lines, "== " .. section .. " ==")
@@ -92,7 +139,6 @@ function M.show_env_info()
       vim.api.nvim_buf_set_option(buf, "modifiable", false)
       vim.api.nvim_buf_set_option(buf, "bufhidden", "wipe")
 
-      -- Close with 'q'
       vim.api.nvim_buf_set_keymap(buf, 'n', 'q', '<cmd>close<CR>', {noremap = true, silent = true})
     end
   })
@@ -149,6 +195,9 @@ function M.run_command(cmd, args, opts)
 end
 
 function M.create_commands()
+   if not M.is_available() then
+    vim.notify("Pixi not found. Commands will be registered but may not work.", vim.log.levels.WARN)
+  end
   vim.api.nvim_create_user_command("PixiInit", function(opts)
     M.run_command("init", opts.args)
   end, {nargs = "?", desc = "Initialize a new pixi project"})
@@ -189,7 +238,6 @@ function M.create_commands()
     M.run_command("install")
   end, {desc = "Install pixi dependencies"})
 
-  -- Add remaining commands from the pixi CLI
   vim.api.nvim_create_user_command("PixiCompletion", function(opts)
     M.run_command("completion", opts.args)
   end, {nargs = "?", desc = "Generate shell completion script"})

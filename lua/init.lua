@@ -22,34 +22,53 @@ M.defaults = {
   filetypes = {
     emoji_extension = true,
   },
+  pixi = {
+    enabled = true,
+    config  = {},
+  },
+    magic = {
+    enabled = true,
+    config = {},
+  },
   syntax = {
     enabled = true,
-    treesitter = {
-      enabled = true,
-    },
-    fallback = {
-      enabled = true,
-      highlight_all = true,
-    },
+    treesitter = { enabled = true },
+    fallback   = { enabled = true, highlight_all = true },
   },
 }
 
 function M.get_mojo_cmd()
-  local paths = {
-    vim.env.HOME .. '/.local/bin/mojo',
-    '/usr/local/bin/mojo',
-    '/usr/bin/mojo',
-    vim.env.PIXI_HOME and vim.env.PIXI_HOME .. '/bin/mojo' or nil,
-    vim.env.MAGIC_HOME and vim.env.MAGIC_HOME .. '/bin/magic' or nil,
-  }
+  local is_windows = vim.fn.has('win32') == 1
+  local is_mac = vim.fn.has('macunix') == 1
+  local paths = {}
+
+  if is_windows then
+    table.insert(paths, vim.env.LOCALAPPDATA and vim.env.LOCALAPPDATA .. "\\Programs\\Mojo\\mojo.exe" or nil)
+    table.insert(paths, "C:\\Program Files\\Mojo\\mojo.exe")
+  else
+    table.insert(paths, vim.env.HOME .. '/.local/bin/mojo')
+    if is_mac then
+      table.insert(paths, '/usr/local/bin/mojo')
+      table.insert(paths, '/opt/homebrew/bin/mojo')
+    else
+      table.insert(paths, '/usr/local/bin/mojo')
+      table.insert(paths, '/usr/bin/mojo')
+    end
+  end
+
+  local env_path_separator = is_windows and "\\" or "/"
+  local exe_extension = is_windows and ".exe" or ""
+  table.insert(paths, vim.env.PIXI_HOME and
+    vim.env.PIXI_HOME .. env_path_separator .. "bin" .. env_path_separator .. "mojo" .. exe_extension or nil)
+  table.insert(paths, vim.env.MAGIC_HOME and
+    vim.env.MAGIC_HOME .. env_path_separator .. "bin" .. env_path_separator .. "magic" .. exe_extension or nil)
+
   for _, path in ipairs(paths) do
     if path and vim.fn.executable(path) == 1 then
       return { path, 'lsp' }
     end
   end
-  return { 'mojo', 'lsp' }
 end
-
 function M.setup_syntax(opts)
   if not opts.syntax.enabled then
     return
@@ -79,9 +98,16 @@ end
 
 local function setup_plugin(opts)
   opts = vim.tbl_deep_extend('force', M.defaults, opts or {})
-
-
   M.options = opts
+
+ if opts.lsp.enabled then
+    require('blaze.lsp').setup_servers()
+  end
+
+ if opts.pixi.enabled then
+    require("blaze.pixi").setup(opts.pixi.config)
+  end
+
   vim.filetype.add({
     extension = {
       mojo = 'mojo',
@@ -102,10 +128,6 @@ local function setup_plugin(opts)
 
   M.setup_syntax(opts)
 
-  if opts.lsp.enabled then
-    require('blaze.lsp').setup_servers()
-  end
-
   M._initialized = true
   return M
 end
@@ -119,4 +141,3 @@ if not vim.g.blaze_no_auto_setup then
 end
 
 return M
-
