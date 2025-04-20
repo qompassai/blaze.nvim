@@ -8,11 +8,11 @@ return {
   },
 
   description = {
-    summary = 'blaze.nvim: 🔥🔥🔥 for AI',
+    summary = 'blaze.nvim: 🔥 for AI',
     detailed = [[
       A modern Neovim plugin for the 🔥(mojo) language. Provides syntax highlighting,
-      Treesitter grammar, DAP, formatting, linting, and IDE integration.
-      Designed for developers ready to go blazingly fast with AI.
+      Treesitter (via blaze-ts), DAP, formatting, linting, and container-use.
+      Designed for 0.1x developers & 10x developers alike.
     ]],
     homepage = 'https://github.com/qompassai/blaze.nvim',
     license = 'AGPL-3.0 AND Q-CDA',
@@ -20,29 +20,37 @@ return {
 
   dependencies = {
     'lua >= 5.1',
+   -- Note: The following plugins need to be installed separately via a Neovim plugin manager:
+  -- qompassai/blaze-ts
+  -- neovim/nvim-lspconfig
+  -- mfussenegger/nvim-dap
+  -- rcarriga/nvim-dap-ui
+  -- mfussenegger/nvim-dap-python},
   },
-
   build = {
     type = 'builtin',
     modules = {
-      ['blaze'] = 'lua/blaze/init.lua',
-      ['blaze.dap'] = 'lua/blaze/dap.lua',
-      ['blaze.formatting'] = 'lua/blaze/formatting.lua',
-      ['blaze.keymaps'] = 'lua/blaze/keymaps.lua',
-      ['blaze.linting'] = 'lua/blaze/linting.lua',
-      ['blaze.lsp'] = 'lua/blaze/lsp.lua',
-      ['blaze.magic'] = 'lua/blaze/magic.lua',
-      ['blaze.syntax'] = 'lua/blaze/syntax.lua',
-      ['blaze.pixi'] = 'lua/blaze/pixi.lua',
-      ['blaze.lualine'] = 'lua/blaze/lualine.lua',
-      ['blaze.health'] = 'lua/blaze/health.lua',
-    },
+        modules = {
+    ['blaze'] = 'lua/blaze/init.lua',
+    ['init'] = 'lua/init.lua',
+    ['blaze.autocmds'] = 'lua/blaze/autocmds.lua',
+    ['blaze.container'] = 'lua/blaze/container.lua',
+    ['blaze.dap'] = 'lua/blaze/dap.lua',
+    ['blaze.formatting'] = 'lua/blaze/formatting.lua',
+    ['blaze.health'] = 'lua/blaze/health.lua',
+    ['blaze.keymaps'] = 'lua/blaze/keymaps.lua',
+    ['blaze.linting'] = 'lua/blaze/linting.lua',
+    ['blaze.lsp'] = 'lua/blaze/lsp.lua',
+    ['blaze.lualine'] = 'lua/blaze/lualine.lua',
+    ['blaze.magic'] = 'lua/blaze/magic.lua',
+    ['blaze.pixi'] = 'lua/blaze/pixi.lua',
+    ['blaze.syntax'] = 'lua/blaze/syntax.lua',
+    ['blaze.ft.blaze'] = 'lua/blaze/ft/blaze.lua',
   },
   copy_directories = {
     'plugin',
     'autoload',
     'doc',
-    'ftdetect',
     'ftplugin',
     'indent',
     'syntax',
@@ -54,7 +62,6 @@ return {
       ['share/nvim/site/pack/packer/start/blaze.nvim'] = {
         'plugin',
         'doc',
-        'ftdetect',
         'ftplugin',
         'indent',
         'syntax',
@@ -63,4 +70,6 @@ return {
       },
     },
   },
+},
+}
 }

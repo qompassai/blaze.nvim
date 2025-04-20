@@ -1,6 +1,11 @@
--- lua/blaze/keymaps.lua
+-- blaze.nvim/lua/blaze/keymaps.lua
+local M = {}
 
--- Nerd Translate Legend for blaze.nvim kaymappings
+M.setup = function(opts)
+  opts = opts or {}
+  local pixi_prefix = opts.pixi and opts.pixi.keymaps and opts.pixi.keymaps.prefix or "<leader>p"
+
+  -- Nerd Translate Legend for blaze.nvim kaymappings
 
  -- '🔥 Mojo': The Mojo programming language.
 -- 'Magic': A tool that helps manage Mojo projects, dependencies, and builds.
@@ -19,130 +24,121 @@
 -- 'Telemetry Help' (📡): Shows settings for tracking usage data in Magic tools.
 -- 'Help Overview' (📜): Displays a menu with all the Magic commands you can use.
 
-local M = {}
-
-local function run_mojo_format()
-  local file = vim.fn.expand("%:p")
-  if vim.fn.executable("mojo") == 1 then
-    vim.fn.jobstart({ "mojo", "format", file }, {
-      stdout_buffered = true,
-      on_stdout = function(_, data)
-        if data then
-          vim.notify(table.concat(data, "\n"), vim.log.levels.INFO, { title = "mojo format" })
-        end
-      end,
-      on_stderr = function(_, err)
-        if err then
-          vim.notify(table.concat(err, "\n"), vim.log.levels.ERROR, { title = "mojo format error" })
-        end
-      end,
-    })
-  else
-    vim.notify("🔥 executable not found in PATH", vim.log.levels.WARN)
+ local function run_mojo_format()
+    local file = vim.fn.expand("%:p")
+    if vim.fn.executable("mojo") == 1 then
+      vim.fn.jobstart({ "mojo", "format", file }, {
+        stdout_buffered = true,
+        on_stdout = function(_, data)
+          if data then
+            vim.notify(table.concat(data, "\n"), vim.log.levels.INFO, { title = "mojo format" })
+          end
+        end,
+        on_stderr = function(_, err)
+          if err then
+            vim.notify(table.concat(err, "\n"), vim.log.levels.ERROR, { title = "mojo format error" })
+          end
+        end,
+      })
+    else
+      vim.notify("🔥 executable not found in PATH", vim.log.levels.WARN)
+    end
   end
-end
 
-M.setup = function()
+  local function shell_cmd(cmd)
+    return function() vim.cmd("!" .. cmd) end
+  end
+
+  local mojo_commands = {
+    f = { run_mojo_format, "🔥 Format via magic" },
+    h = { "<cmd>Fever<CR>", "🌡️ Health Check" },
+    i = { shell_cmd("magic install mojo"), "❤️🔥 Install 🔥" },
+    u = { shell_cmd("magic update"), "📦 Update deps" },
+    l = { shell_cmd("magic lock"), "🔒 Lock env" },
+    x = { shell_cmd("magic exec"), "🧙‍♂️ Exec shell cmd" },
+    s = { shell_cmd("magic shell"), "🔮 Magic shell" },
+    t = { shell_cmd("magic tree"), "🌲 Dep tree" },
+    g = { shell_cmd("magic global"), "🌍 Global pkg" },
+    b = { shell_cmd("magic build"), "🔨 Build Mojo" },
+    c = { shell_cmd("magic clean"), "🧹 Clean build cache" },
+    v = { shell_cmd("magic self-update"), "✨ Self Update" },
+    C = { shell_cmd("magic completion --shell bash"), "🧩 Shell Completion" },
+    T = { shell_cmd("magic telemetry --help"), "🚱 Telemetry Settings" },
+    H = { shell_cmd("magic help"), "📜 Help Overview" },
+  }
+
   local wk_ok, wk = pcall(require, "which-key")
   local map = vim.keymap.set
-  local opts = { noremap = true, silent = true }
+  local key_opts = { noremap = true, silent = true }
 
-  local fallback_mappings = {
-    { "<leader>mf", run_mojo_format, "🔥 Format" },
-    { "<leader>mh", "<cmd>Fever<CR>", "🌡️ Run health check" },
-    { "<leader>mi", "<cmd>!magic install mojo<CR>", "❤️‍🔥 Install 🔥" },
-    { "<leader>mu", "<cmd>!magic update<CR>", "📦 Update dependencies" },
-    { "<leader>ml", "<cmd>!magic lock<CR>", "🔒 Lock dependencies" },
-    { "<leader>mx", "<cmd>!magic exec<CR>", "🧙‍♂️ Execute shell cmd" },
-    { "<leader>ms", "<cmd>!magic shell<CR>", "🔮 Open magic shell" },
-    { "<leader>mt", "<cmd>!magic tree<CR>", "🌲 Show dependency tree" },
-    { "<leader>mg", "<cmd>!magic global<CR>", "🌍 Manage global packages" },
-    { "<leader>mb", "<cmd>!magic build<CR>", "🔨 Build project" },
-    { "<leader>mc", "<cmd>!magic clean<CR>", "🧹 Clean Magic cache" },
-    { "<leader>mv", "<cmd>!magic self-update<CR>", "✨ Update Magic CLI" },
-    { "<leader>mC", "<cmd>!magic completion --shell bash<CR>", "🧩 Generate shell completion" },
-    { "<leader>mT", "<cmd>!magic telemetry --help<CR>", "📡 Telemetry help" },
-    { "<leader>mH", "<cmd>!magic help<CR>", "📜 Magic help overview" },
+  local pixi_commands = {
+    i = { function() vim.cmd("PixiInit") end, "🧪 Initialize project" },
+    a = { function() vim.cmd("PixiAdd") end, "📦 Add dependency" },
+    r = { function() vim.cmd("PixiRun") end, "🏃 Run command" },
+    s = { function() vim.cmd("PixiShell") end, "🐚 Start shell" },
+    I = { function() vim.cmd("PixiInstall") end, "⬇️ Install dependencies" },
+    c = { function() vim.cmd("PixiCompletion") end, "🧩 Generate completion" },
+    g = { function() vim.cmd("PixiGlobal") end, "🌍 Global management" },
+    A = { function() vim.cmd("PixiAuth") end, "🔑 Login to package servers" },
+    t = { function() vim.cmd("PixiTask") end, "📋 Manage tasks" },
+    f = { function() vim.cmd("PixiInfo") end, "ℹ️ Project info" },
+    u = { function() vim.cmd("PixiUpload") end, "⬆️ Upload package" },
+    S = { function() vim.cmd("PixiSearch") end, "🔎 Search packages" },
+    p = { function() vim.cmd("PixiProject") end, "📁 Project management" },
+    h = { function() vim.cmd("PixiHelp") end, "❓ Show help" },
   }
+
+  local function cmd_with_args(cmd)
+    return function()
+      vim.ui.input({ prompt = cmd .. " arguments: " }, function(input)
+        if input then
+          vim.cmd(cmd .. " " .. input)
+        end
+      end)
+    end
+  end
+  pixi_commands.a = { cmd_with_args("PixiAdd"), "📦 Add dependency" }
+  pixi_commands.r = { cmd_with_args("PixiRun"), "🏃 Run command" }
+  pixi_commands.S = { cmd_with_args("PixiSearch"), "🔎 Search packages" }
 
   if wk_ok then
     wk.register({
       ["<leader>m"] = {
         name = "+🔥 Mojo",
-        f = { run_mojo_format, "🔥 Format via magic" },
-        h = { "<cmd>Fever<CR>", "🌧️ Health Check" },
-        i = { "<cmd>!magic install mojo<CR>", "❤️🔥 Install 🔥" },
-        u = { "<cmd>!magic update<CR>", "📦 Update deps" },
-        l = { "<cmd>!magic lock<CR>", "🔒 Lock env" },
-        x = { "<cmd>!magic exec<CR>", "🧙‍♂️ Exec shell cmd" },
-        s = { "<cmd>!magic shell<CR>", "🔮 Magic shell" },
-        t = { "<cmd>!magic tree<CR>", "🌲 Dep tree" },
-        g = { "<cmd>!magic global<CR>", "🌍 Global pkg" },
-        b = { "<cmd>!magic build<CR>", "🔨 Build Mojo" },
-        c = { "<cmd>!magic clean<CR>", "🧹 Clean build cache" },
-        v = { "<cmd>!magic self-update<CR>", "✨ Self Update" },
-        C = { "<cmd>!magic completion --shell bash<CR>", "🧩 Shell Completion" },
-        T = { "<cmd>!magic telemetry --help<CR>", "🚱 Telemetry Settings" },
-        H = { "<cmd>!magic help<CR>", "📜 Help Overview" },
-      },
-      ["❤️‍🔥"] = {
-        name = "+🔥",
-        map("n", "<leader>mf", run_mojo_format, vim.tbl_extend("force", opts, { desc = "🔥 Format" })),
-        -- In Normal mode: <leader> + m + f — Format Mojo file
-
-        map("n", "<leader>mh", "<cmd>Fever<CR>", vim.tbl_extend("force", opts, { desc = "🌡️ Run health check" })),
-        -- In Normal mode: <leader> + m + h — Run Fever health check
-
-        map("n", "<leader>mi", "<cmd>!magic install mojo<CR>", vim.tbl_extend("force", opts, { desc = "❤️‍🔥 Install 🔥" })),
-        -- In Normal mode: <leader> + m + i — Install Mojo via Magic
-
-        map("n", "<leader>mu", "<cmd>!magic update<CR>",
-          vim.tbl_extend("force", opts, { desc = "📦 Update dependencies" })),
-        -- In Normal mode: <leader> + m + u — Update project dependencies
-
-        map("n", "<leader>ml", "<cmd>!magic lock<CR>", vim.tbl_extend("force", opts, { desc = "🔒 Lock dependencies" })),
-        -- In Normal mode: <leader> + m + l — Lock environment dependencies
-
-        map("n", "<leader>mx", "<cmd>!magic exec<CR>", vim.tbl_extend("force", opts, { desc = "🧙‍♂️ Execute shell cmd" })),
-        -- In Normal mode: <leader> + m + x — Execute command inside Magic shell
-
-        map("n", "<leader>ms", "<cmd>!magic shell<CR>", vim.tbl_extend("force", opts, { desc = "🔮 Open magic shell" })),
-        -- In Normal mode: <leader> + m + s — Start Magic shell session
-
-        map("n", "<leader>mt", "<cmd>!magic tree<CR>", vim.tbl_extend("force", opts, { desc = "🌲 Show dependency tree" })),
-        -- In Normal mode: <leader> + m + t — View dependency tree
-
-        map("n", "<leader>mg", "<cmd>!magic global<CR>",
-          vim.tbl_extend("force", opts, { desc = "🌍 Manage global packages" })),
-        -- In Normal mode: <leader> + m + g — Manage global packages
-
-        map("n", "<leader>fb", "<cmd>!magic build<CR>", vim.tbl_extend("force", opts, { desc = "🔨 Build project" })),
-        -- In Normal mode: <leader> + m + b — Build 🔥 project
-
-        map("n", "<leader>mc", "<cmd>!magic clean<CR>", vim.tbl_extend("force", opts, { desc = "🧹 Clean Magic cache" })),
-        -- In Normal mode: <leader> + m + c — Clean Magic build and task cache
-
-        map("n", "<leader>mv", "<cmd>!magic self-update<CR>",
-          vim.tbl_extend("force", opts, { desc = "✨ Update Magic CLI" })),
-        -- In Normal mode: <leader> + m + v — Update Magic tool to latest
-
-        map("n", "<leader>m/", "<cmd>!magic completion --shell bash<CR>",
-          vim.tbl_extend("force", opts, { desc = "🧩 Generate shell completion" })),
-        -- In Normal mode: <leader> + m + / — Generate bash shell completion
-
-        map("n", "<leader>fT", "<cmd>!magic telemetry --help<CR>",
-          vim.tbl_extend("force", opts, { desc = "📡 Telemetry help" })),
-        -- In Normal mode: <leader> + m + T — Show telemetry configuration help
-
-        map("n", "<leader>fH", "<cmd>!magic help<CR>", vim.tbl_extend("force", opts, { desc = "📜 Magic help overview" })),
-        -- In Normal mode: <leader> + m + H — Show Magic help overview
-      },
+      }
     })
-  else
-    for _, m in ipairs(fallback_mappings) do
-      map("n", m[1], m[2], vim.tbl_extend("force", opts, { desc = m[3] }))
+
+    for key, mapping in pairs(mojo_commands) do
+      wk.register({
+        [key] = mapping
+      }, { prefix = "<leader>m" })
     end
+
+    wk.register({
+      [pixi_prefix] = {
+        name = "+🧪 Pixi",
+      }
+    })
+
+    for key, mapping in pairs(pixi_commands) do
+      wk.register({
+        [key] = mapping
+      }, { prefix = pixi_prefix })
+    end
+  else
+  for key, mapping in pairs(mojo_commands) do
+    local mapping_opts = vim.tbl_extend("force", key_opts, { desc = mapping[2] })
+    map("n", "<leader>m" .. key, mapping[1], mapping_opts)
   end
+
+  for key, mapping in pairs(pixi_commands) do
+    local mapping_opts = vim.tbl_extend("force", key_opts, { desc = mapping[2] })
+    map("n", pixi_prefix .. key, mapping[1], mapping_opts)
+  end
+end
+end
+function M.setup_mojo_keymaps(opts)
+  -- Future implementation
 end
 
 return M

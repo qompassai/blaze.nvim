@@ -1,65 +1,122 @@
+-- lua/blaze/autoload/blaze.lua
+-- luacheck: globals vim ipairs pairs type loadstring
+---@diagnostic disable: undefined-field, undefined-global, need-check-nil
 
 local M = {}
 
--- 🔥 indentation configuration
-global_mojo_indent = vim.tbl_extend("force", vim.g.mojo_indent or {}, {
-  closed_paren_align_last_line = true,
-  open_paren = vim.g.pyindent_open_paren or "shiftwidth() * 2",
-  nested_paren = vim.g.pyindent_nested_paren or "shiftwidth()",
-  continue = vim.g.pyindent_continue or "shiftwidth() * 2",
-  searchpair_timeout = vim.g.pyindent_searchpair_timeout or 150,
-  disable_parentheses_indenting = vim.g.pyindent_disable_parentheses_indenting or false,
-})
+local defaults = {
+  closed_paren_align_last_line  = true,
+  open_paren                    = "shiftwidth() * 2",
+  nested_paren                  = "shiftwidth()",
+  continue                      = "shiftwidth() * 2",
+  searchpair_timeout            = 150,
+  disable_parentheses_indenting = false,
+}
 
-local maxoff = 50
+---@type table<string,any>
+local cfg = vim.tbl_deep_extend(
+  "force",
+  defaults,
+  vim.g.mojo_indent or {},
+  {
+    open_paren   = vim.g.pyindent_open_paren            or defaults.open_paren,
+    nested_paren = vim.g.pyindent_nested_paren          or defaults.nested_paren,
+    continue     = vim.g.pyindent_continue              or defaults.continue,
+    searchpair_timeout = vim.g.pyindent_searchpair_timeout
+                         or defaults.searchpair_timeout,
+    disable_parentheses_indenting =
+      vim.g.pyindent_disable_parentheses_indenting or defaults.disable_parentheses_indenting,
+  }
+)
+
+local MAX_LOOKBACK = 50
 
 local function search_bracket(from_lnum, flags)
-  return vim.fn.searchpairpos([[\[\[({]]], "", [[\[\])}]]], flags, function()
-    local syn_ids = vim.fn.synstack(vim.fn.line("."), vim.fn.col("."))
-    for _, id in ipairs(syn_ids) do
-      local name = vim.fn.synIDattr(id, "name")
-      if name:match("Comment$") or name:match("Todo$") or name:match("String$") then
-        return true
+  return vim.fn.searchpairpos(
+    "\\v[[(]{]", "", "\\v[])}]", flags,
+    function()
+      for _, id in ipairs(vim.fn.synstack(vim.fn.line("."), vim.fn.col("."))) do
+        local name = vim.fn.synIDattr(id, "name")
+        if name:match("Comment$") or name:match("String$") then
+          return true
+        end
       end
-    end
-    return false
-  end, math.max(0, from_lnum - maxoff), global_mojo_indent.searchpair_timeout)
+      return false
+    end,
+    from_lnum - MAX_LOOKBACK,
+    cfg.searchpair_timeout
+  )
 end
 
-local function is_dedented(lnum, expected)
+local function dedented(lnum, expected)
   return vim.fn.indent(lnum) <= expected - vim.fn.shiftwidth()
 end
 
-function M.get_indent(lnum)
+---@param lnum integer
+---@param extra? fun(start_lnum: integer): boolean
+---@return integer
+function M.get_indent(lnum, extra)
+  extra = extra or function() return false end
+
   local line = vim.fn.getline(lnum)
   if line:match("^%s*$") then return -1 end
 
-  local prev_lnum = vim.fn.prevnonblank(lnum - 1)
-  if prev_lnum == 0 then return 0 end
-
-  local prev_line = vim.fn.getline(prev_lnum)
-  local prev_indent = vim.fn.indent(prev_lnum)
-
-  -- Backslash continuation
-  if vim.fn.getline(prev_lnum):match("\\$") then
-    return prev_indent + load("return " .. global_mojo_indent.continue)()
+  if vim.fn.getline(lnum - 1):match("\\$") then
+    if lnum > 1 and vim.fn.getline(lnum - 2):match("\\$") then
+      return vim.fn.indent(lnum - 1)
+    end
+    local loader = loadstring or load
+    local ok, fn = pcall(loader, "return " .. cfg.continue)
+    return vim.fn.indent(lnum - 1) + (ok and fn() or vim.fn.shiftwidth() * 2)
   end
 
-  -- Handle colons
-  if prev_line:match(":%s*$") then
-    return prev_indent + vim.fn.shiftwidth()
+  if vim.fn.has("syntax_items") == 1
+     and vim.fn.synIDattr(vim.fn.synID(lnum, 1, 1), "name"):match("String$") then
+    return -1
   end
 
-  -- Handle dedent keywords
-  if line:match("^%s*(elif|else|except|finally)%W") then
-    return prev_indent - vim.fn.shiftwidth()
+  local plnum = vim.fn.prevnonblank(lnum - 1)
+  if plnum == 0 then return 0 end
+
+  if not cfg.disable_parentheses_indenting
+     and cfg.closed_paren_align_last_line
+     and line:match("^%s*[])}]") then
+    local pos = search_bracket(lnum, "bnW")
+    if pos[1] > 0 then
+      return vim.fn.indent(pos[1])
+    end
   end
 
-  return prev_indent
+  local pline    = vim.fn.getline(plnum)
+  local plindent = vim.fn.indent(plnum)
+
+  if not cfg.disable_parentheses_indenting then
+    local parlnum = search_bracket(plnum, "nbW")[1]
+    if parlnum > 0 and not extra(parlnum) then
+      plindent = vim.fn.indent(parlnum)
+    end
+  end
+
+  if pline:match(":%s*$") then
+    return plindent + vim.fn.shiftwidth()
+  end
+
+  if line:match("^%s*(elif|else|except|finally)%f[%s]") then
+    return plindent - vim.fn.shiftwidth()
+  end
+
+  if vim.fn.getline(plnum):match("^%s*(break|continue|raise|return|pass)%f[%s]") then
+    if dedented(lnum, plindent) then return -1 end
+    return plindent - vim.fn.shiftwidth()
+  end
+
+  return plindent
 end
 
 function M.indentexpr()
-  return M.get_indent(vim.v.lnum)
+  local lnum = (vim.v and vim.v.lnum) or 0
+  if type(lnum) ~= "number" or lnum < 1 then return 0 end
+  return M.get_indent(lnum)
 end
 
 return M

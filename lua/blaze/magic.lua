@@ -1,4 +1,4 @@
--- lua/blaze/magic.lua
+-- blaze.nvim/lua/blaze/magic.lua
 local M = {}
 local function run_mojo_format()
   vim.notify("Formatting Mojo file...", vim.log.levels.INFO)
@@ -112,12 +112,16 @@ function M.setup_keymaps()
     end
   end
 end
-function M.setup()
+function M.setup(opts)
+  opts = opts or {}
+  M.config = vim.tbl_deep_extend("force", M.defaults, opts)
+
   if not M.get_magic_binary() then
-    vim.notify("Magic binary not found. Some features may not work.", vim.log.levels.WARN)
+    if M.config.show_output then
+      vim.notify("Magic binary not found. Some features may not work.", vim.log.levels.WARN)
+    end
   end
 
   M.setup_keymaps()
+  return M
 end
-
-return M

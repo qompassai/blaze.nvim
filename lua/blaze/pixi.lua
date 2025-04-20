@@ -1,4 +1,4 @@
---/blaze/lua/pixi.lua
+--blaze.nvim/lua/blaze/lua/pixi.lua
 ---@class vim.var_accessor
 ---@field is_pixi_project boolean
 local M = {}
@@ -110,9 +110,9 @@ function M.show_env_info()
         return
       end
 
-      local info = M.parse_pixi_info(output)
+      local info = M.parse_pixi_info(output)  -- Use local here
 
-      local buf = vim.api.nvim_create_buf(false, true)
+      local buf = vim.api.nvim_create_buf(false, true)  -- Use local here
       local width = 60
       local height = 20
       local win = vim.api.nvim_open_win(buf, true, {
@@ -125,7 +125,9 @@ function M.show_env_info()
         border = "rounded",
         title = "Pixi Environment Info",
       })
-
+            M.info_win = win
+      vim.api.nvim_win_set_option(win, 'winhl', 'NormalFloat:Normal,FloatBorder:Special')
+      vim.api.nvim_win_set_option(win, 'cursorline', true)
       local lines = {}
       for section, data in pairs(info) do
         table.insert(lines, "== " .. section .. " ==")
@@ -134,7 +136,6 @@ function M.show_env_info()
         end
         table.insert(lines, "")
       end
-
       vim.api.nvim_buf_set_lines(buf, 0, -1, false, lines)
       vim.api.nvim_buf_set_option(buf, "modifiable", false)
       vim.api.nvim_buf_set_option(buf, "bufhidden", "wipe")
@@ -150,12 +151,9 @@ function M.parse_pixi_info(output)
     environment = {},
     system = {}
   }
-
   local current_section = nil
-
   for _, line in ipairs(vim.split(output, "\n")) do
     line = line:gsub("^%s+", ""):gsub("%s+$", "")
-
     if line:match("^Project:") then
       current_section = "project"
     elseif line:match("^Environment:") then
@@ -169,7 +167,6 @@ function M.parse_pixi_info(output)
       end
     end
   end
-
   return info
 end
 
@@ -192,87 +189,94 @@ function M.run_command(cmd, args, opts)
     command = command .. " " .. args
   end
 
+  if opts.terminal then
+    vim.cmd("split | terminal " .. command)
+  else
+    local output = vim.fn.system(command)
+    local success = vim.v.shell_error == 0
+
+    if opts.callback then
+      opts.callback(output, success)
+    elseif not success and M.config.notify then
+      vim.notify("Command failed: " .. command .. "\n" .. output, vim.log.levels.ERROR)
+    end
+    return output, success
+  end
 end
 
 function M.create_commands()
    if not M.is_available() then
     vim.notify("Pixi not found. Commands will be registered but may not work.", vim.log.levels.WARN)
   end
-  vim.api.nvim_create_user_command("PixiInit", function(opts)
-    M.run_command("init", opts.args)
-  end, {nargs = "?", desc = "Initialize a new pixi project"})
 
-  vim.api.nvim_create_user_command("PixiAdd", function(opts)
+    vim.api.nvim_create_user_command("PixiAdd", function(opts)
+    ---@cast opts {args: string}
     M.run_command("add", opts.args)
+    ---@cast opts {args: string}
   end, {nargs = "+", desc = "Add a dependency to the pixi project"})
 
-  vim.api.nvim_create_user_command("PixiRun", function(opts)
-    M.run_command("run", opts.args)
-  end, {nargs = "+", desc = "Run a command in the pixi environment"})
-
-  vim.api.nvim_create_user_command("PixiShell", function()
-    M.run_command("shell", "", {terminal = true})
-  end, {desc = "Start a shell in the pixi environment"})
-
-  vim.api.nvim_create_user_command("PixiInstall", function()
-    M.run_command("install")
-  end, {desc = "Install pixi dependencies"})
-
-    vim.api.nvim_create_user_command("PixiInit", function(opts)
-    M.run_command("init", opts.args)
-  end, {nargs = "?", desc = "Initialize a new pixi project"})
-
-  vim.api.nvim_create_user_command("PixiAdd", function(opts)
-    M.run_command("add", opts.args)
-  end, {nargs = "+", desc = "Add a dependency to the pixi project"})
-
-  vim.api.nvim_create_user_command("PixiRun", function(opts)
-    M.run_command("run", opts.args)
-  end, {nargs = "+", desc = "Run a command in the pixi environment"})
-
-  vim.api.nvim_create_user_command("PixiShell", function()
-    M.run_command("shell", "", {terminal = true})
-  end, {desc = "Start a shell in the pixi environment"})
-
-  vim.api.nvim_create_user_command("PixiInstall", function()
-    M.run_command("install")
-  end, {desc = "Install pixi dependencies"})
-
-  vim.api.nvim_create_user_command("PixiCompletion", function(opts)
-    M.run_command("completion", opts.args)
-  end, {nargs = "?", desc = "Generate shell completion script"})
-
-  vim.api.nvim_create_user_command("PixiGlobal", function(opts)
-    M.run_command("global", opts.args)
-  end, {nargs = "*", desc = "Global pixi management"})
-
-  vim.api.nvim_create_user_command("PixiAuth", function(opts)
+    vim.api.nvim_create_user_command("PixiAuth", function(opts)
+    ---@cast opts {args: string}
     M.run_command("auth", opts.args)
   end, {nargs = "*", desc = "Login to package servers"})
 
-  vim.api.nvim_create_user_command("PixiTask", function(opts)
-    M.run_command("task", opts.args)
-  end, {nargs = "*", desc = "Manage project tasks"})
+    vim.api.nvim_create_user_command("PixiCompletion", function(opts)
+    ---@cast opts {args: string}
+    M.run_command("completion", opts.args)
+  end, {nargs = "?", desc = "Generate shell completion script"})
 
-  vim.api.nvim_create_user_command("PixiInfo", function()
+   vim.api.nvim_create_user_command("PixiHelp", function(opts)
+    ---@cast opts {args: string}
+    M.run_command("help", opts.args)
+  end, {nargs = "?", desc = "Show pixi help"})
+
+  vim.api.nvim_create_user_command("PixiInit", function(opts)
+    ---@cast opts {args: string}
+    M.run_command("init", opts.args)
+  end, {nargs = "?", desc = "Initialize a new pixi project"})
+
+    vim.api.nvim_create_user_command("PixiInfo", function()
     M.run_command("info")
   end, {desc = "Show project and system information"})
 
-  vim.api.nvim_create_user_command("PixiUpload", function(opts)
-    M.run_command("upload", opts.args)
-  end, {nargs = "+", desc = "Upload package to prefix.dev"})
+   vim.api.nvim_create_user_command("PixiInstall", function()
+    M.run_command("install")
+  end, {desc = "Install pixi dependencies"})
 
-  vim.api.nvim_create_user_command("PixiSearch", function(opts)
-    M.run_command("search", opts.args)
-  end, {nargs = "+", desc = "Search for packages"})
+    vim.api.nvim_create_user_command("PixiGlobal", function(opts)
+      ---@cast opts {args: string}
+    M.run_command("global", opts.args)
+  end, {nargs = "*", desc = "Global pixi management"})
 
-  vim.api.nvim_create_user_command("PixiProject", function(opts)
+    vim.api.nvim_create_user_command("PixiProject", function(opts)
+      ---@cast opts {args: string}
     M.run_command("project", opts.args)
   end, {nargs = "*", desc = "Project management"})
 
-  vim.api.nvim_create_user_command("PixiHelp", function(opts)
-    M.run_command("help", opts.args)
-  end, {nargs = "?", desc = "Show pixi help"})
+  vim.api.nvim_create_user_command("PixiRun", function(opts)
+    ---@cast opts {args: string}
+    M.run_command("run", opts.args)
+  end, {nargs = "+", desc = "Run a command in the pixi environment"})
+
+    vim.api.nvim_create_user_command("PixiSearch", function(opts)
+      ---@cast opts {args: string}
+    M.run_command("search", opts.args)
+  end, {nargs = "+", desc = "Search for packages"})
+
+  vim.api.nvim_create_user_command("PixiShell", function()
+    M.run_command("shell", "", {terminal = true})
+  end, {desc = "Start a shell in the pixi environment"})
+
+  vim.api.nvim_create_user_command("PixiTask", function(opts)
+    ---@cast opts {args: string}
+    M.run_command("task", opts.args)
+  end, {nargs = "*", desc = "Manage project tasks"})
+
+  vim.api.nvim_create_user_command("PixiUpload", function(opts)
+    ---@cast opts {args: string}
+    M.run_command("upload", opts.args)
+  end, {nargs = "+", desc = "Upload package to prefix.dev"})
+
 end
 
 

@@ -1,7 +1,9 @@
 # blaze.nvim
 
 ## A blazingly fast mojo.vim fork
-** Under Active development expect breaking changes until release**
+
+** Under Active development expect breaking changes until stable release**
+
 <p align="center">
   <a href="https://www.gnu.org/licenses/agpl-3.0">
     <img src="https://img.shields.io/badge/License-AGPL%20v3-blue.svg" alt="License: AGPL v3">
@@ -39,37 +41,29 @@
 ```lua
 -- 📁 ~/.config/nvim/lua/plugins/init.lua
 -- If you're using lazy.nvim or packer.nvim, this goes in your plugin spec list:
+```
 
+```lua
 -- 👉 For lazy.nvim
-{
-  "qompassai/blaze.nvim",
-  lazy = true,
-  ft = { "mojo", "🔥" },
-  config = function()
-    require("blaze.config").setup({
-      format_on_save = true,
-      enable_linting = true,
-      dap = { enabled = true },
-      keymaps = true,
-    })
-  end,
-}
-
+{ "qompassai/blaze.nvim" }
 ```
 
 ```lua
 -- 👉 For packer.nvim
-use({
+use {
   "qompassai/blaze.nvim",
-  ft = { "mojo", "🔥" },
+  requires = {
+    "qompassai/blaze-ts",
+    "neovim/nvim-lspconfig",
+    "mfussenegger/nvim-dap",
+    "rcarriga/nvim-dap-ui",
+    "mfussenegger/nvim-dap-python",
+  },
   config = function()
-    require("blaze.config").setup({
-      format_on_save = true,
-      enable_linting = true,
-      dap = { enabled = true },
-    })
+    require("blaze").setup()
   end,
-})
+  ft = { "mojo", "🔥" }
+}
 ```
 
 ```lua
@@ -81,7 +75,7 @@ require("blaze.config").setup({
 })
 ```
 
-## 📊 Lualine Integration
+## 📊 Lualine Integration (Still in development)
 
 ```lua
 require("lualine").setup({
@@ -95,9 +89,9 @@ require("lualine").setup({
 
 ```
 
-##  Health Check
+## Health Check
 
-```lua
+````lua
 
 ## 🌡️ Healthcheck
 
@@ -138,23 +132,29 @@ If `keymaps = true`, the following mappings are automatically registered:
 
 | Path                       | Purpose                               |
 | -------------------------- | ------------------------------------- |
-| `lua/blaze/treesitter/`    | Tree-sitter grammar files             |
-| `lua/blaze/health/`        | 🔥 Health Check                       |
-| `lua/blaze/formatting.lua` | Handles formatting with `mojo format` |
-| `lua/blaze/linting.lua`    | Integrates with `nvim-lint`           |
+| `lua/blaze/autocmds/`      | Paired commands                       |
+| `lua/blaze/container.lua`  | Rootless Containers for Magic-Docker  |
 | `lua/blaze/dap.lua`        | Debug adapter setup via `nvim-dap`    |
+| `lua/blaze/formatting.lua` | Handles formatting with `mojo format` |
+| `lua/blaze/health.lua`     | 🔥 Which-Key Bindings                 |
+| `lua/blaze/keymap.lua`     | Which-Key bindings                    |
+| `lua/blaze/linting.lua`    | Integrates with `nvim-lint`           |
+| `lua/blaze/magic.lua`      | Magic integration                     |
 | `lua/blaze/pixi.lua`       | Pixi integration                      |
-| `lua/blaze/keyamps.lua`       | Plugin keymaps                         |
-| `lua/blaze/magic.lua`       | Magic integration                      |
-| `plugin/blaze.lua`         | Runtime plugin loader for Neovim      |
+| `lua/blaze/keymaps.lua`    | Plugin keymaps                        |
+
+| `plugin/blaze.lua` | Runtime plugin loader for Neovim |
 
 ## 🧰 Dependencies
 
-- [tree-sitter-cli](https://tree-sitter.github.io/tree-sitter/cli)
-- [`none-ls.nvim`](https://github.com/jose-elias-alvarez/null-ls.nvim)
 - [`nvim-dap`](https://github.com/mfussenegger/nvim-dap)
 - [`nvim-treesitter`](https://github.com/nvim-treesitter/nvim-treesitter)
 - ['blaze-ts'](https://github.com/qompassai/blaze-ts)
+-
+- Optional (But recommended)
+- [magic-docker](https://github.com/modular/magic-docker)
+- [Pixi](cargo install --locked --git https://github.com/prefix-dev/pixi.git
+  [Magic](https://docs.modular.com/magic/)
 
 ## 📄 License
 
@@ -162,10 +162,11 @@ This plugin is dual-licensed under the AGPL-3 and Q-CDA licenses. See [LICENSE](
 
 Derived from:
 
-- [Modular](https://github.com/modular) 
+- [Modular](https://github.com/modular)
 - [mojo.vim](https://github.com/modularml/mojo.vim) (Apache-2.0)
+- [mojo-syntax](https://github.com/ovikrai/mojo-syntax) (MIT)
 - [pixi](https://github.com/modular/pixi) (BSD-3)
-- [magic-docker]https://github.com/modular/magic-docker
+- [magic-docker](https://github.com/modular/magic-docker)
 
 See [LICENSE-Apache-2.0](./LICENSE-Apache-2.0) and [LICENSES/NOTICE](./LICENSES/NOTICE).
 
@@ -173,7 +174,7 @@ See [LICENSE-Apache-2.0](./LICENSE-Apache-2.0) and [LICENSES/NOTICE](./LICENSES/
 
 - Built by [Qompass AI](https://github.com/qompassai)
 - Grammar derived from `mojo.vim` & custom Tree-sitter parser
-- Mojo-LSP applied from 'nvim-lspconfig`(https://github.com/neovim/nvim-lspconfig/blob/master/lua/lspconfig/configs/mojo.lua) 
+- Mojo-LSP applied from 'nvim-lspconfig`(https://github.com/neovim/nvim-lspconfig/blob/master/lua/lspconfig/configs/mojo.lua)
 - Maintained by [Qompass AI](https://qompass.ai)/(https://github.com/phaedrusflow)
 
 ---
