@@ -32,7 +32,7 @@ CHEAT SHEET                                                  *🔥-cheatsheet*
   Debugger         :  🔥-dap (via `nvim-dap`)
 
   KEY FEATURES IN ACTIVE DEVELOPMENT:
-    - Treesitter parser for 🔥 (via blaze-ts)
+    - Treesitter parser for 🔥 (via blaze-ts.nvim)
     - LSP integration (mojo-lsp)
     - On-save formatting with `mojo format`
     - Linting via `nvim-lint`
@@ -56,14 +56,14 @@ CHEAT SHEET                                                  *🔥-cheatsheet*
     🔥-lint Linter detected
     🔥-dap DAP session attached
 
-USAGE WITH TREE-SITTER                                     *blaze-ts*
+USAGE WITH TREE-SITTER                                     *blaze-ts.nvim*
 
     If you're using `nvim-treesitter`, you can manually install:
 
     ```lua
     require("nvim-treesitter.parsers").get_parser_configs().mojo = {
       install_info = {
-        url = "https://github.com/qompassai/blaze-ts",
+        url = "https://github.com/qompassai/blaze-ts.nvim",
         files = { "src/parser.c", "src/grammar.js" },
         branch = "main",
         generate_requires_npm = true,

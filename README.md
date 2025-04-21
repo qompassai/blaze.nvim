@@ -16,7 +16,7 @@
 ## 📦 Features
 
 - ❤️‍🔥 Full integration with Modular's Magic-CLI & Pixi
-- 🔥 Tree-sitter support via `blaze-ts`
+- 🔥 Tree-sitter support via `blaze-ts.nvim`
 - 💡 Autoformatting with `🔥-fmt`
 - 🧪 Diagnostics with `null-ls`
 - 🐞 Debugging via DAP
@@ -53,7 +53,7 @@
 use {
   "qompassai/blaze.nvim",
   requires = {
-    "qompassai/blaze-ts",
+    "qompassai/blaze-ts.nvim",
     "neovim/nvim-lspconfig",
     "mfussenegger/nvim-dap",
     "rcarriga/nvim-dap-ui",
@@ -141,7 +141,6 @@ If `keymaps = true`, the following mappings are automatically registered:
 | `lua/blaze/linting.lua`    | Integrates with `nvim-lint`           |
 | `lua/blaze/magic.lua`      | Magic integration                     |
 | `lua/blaze/pixi.lua`       | Pixi integration                      |
-| `lua/blaze/keymaps.lua`    | Plugin keymaps                        |
 
 | `plugin/blaze.lua` | Runtime plugin loader for Neovim |
 

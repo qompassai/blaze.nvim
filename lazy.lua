@@ -7,7 +7,7 @@ return {
     require("blaze").setup()
   end,
   dependencies = {
-   "qompassai/blaze-ts",
+   "qompassai/blaze-ts.nvim",
    "williamboman/mason.nvim",
   "williamboman/mason-lspconfig.nvim",
    "neovim/nvim-lspconfig",

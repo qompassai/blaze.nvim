@@ -8,7 +8,7 @@
     summary = 'blaze.nvim: 🔥 for AI',
     detailed = [[
       A modern Neovim plugin for the 🔥(mojo) language. Provides syntax highlighting,
-      Treesitter (via blaze-ts), DAP, formatting, linting, and container-use.
+      Treesitter (via blaze-ts.nvim), DAP, formatting, linting, and container-use.
       Designed for 0.1x developers & 10x developers alike.
     ]],
     homepage = 'https://github.com/qompassai/blaze.nvim',
@@ -17,7 +17,7 @@
   dependencies = {
     'lua >= 5.1'
    -- Note: The following plugins need to be installed separately via a Neovim plugin manager:
-  -- qompassai/blaze-ts
+  -- qompassai/blaze-ts.nvim
   -- neovim/nvim-lspconfig
   -- mfussenegger/nvim-dap
   -- rcarriga/nvim-dap-ui
@@ -49,7 +49,6 @@
       'ftplugin',
       'indent',
       'syntax',
-      'lua/blaze/queries'
     },
     install = {
       lua = {},

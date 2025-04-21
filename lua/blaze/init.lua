@@ -1,11 +1,10 @@
 --blaze.nvim/lua/blaze/init.lua
+--------------------------------
 --luacheck
 ---@class vim.var_accessor
 ---@field blaze_using_treesitter boolean
 ---@field mojo_highlight_all number
 ---@field blaze_no_auto_setup boolean
-
-
 local M = {}
 
 M.defaults = {
@@ -111,27 +110,26 @@ function M.setup_syntax(opts)
     end
   end
 end
-function M.setup_formatting()
-  require("blaze.formatting").setup()
-end
-
-function M.setup_linting()
-  require("blaze.linting").setup()
-end
-
-function M.setup_magic()
-  require("blaze.magic").setup()
-end
-
 function M.setup_dap()
   require("blaze.dap").setup()
 end
-
+function M.setup_formatting()
+  require("blaze.formatting").setup()
+end
+function M.setup_linting()
+  require("blaze.linting").setup()
+end
+function M.setup_magic()
+  require("blaze.magic").setup()
+end
+function M.setup_utils()
+  require("blaze.utils").setup()
+end
 function M.setup_treesitter()
   local parser_config = require("nvim-treesitter.parsers").get_parser_configs()
   parser_config.mojo = {
     install_info = {
-      url = "https://github.com/qompassai/blaze-ts",
+      url = "https://github.com/qompassai/blaze-ts.nvim",
       files = { "src/parser.c", "src/grammar.js" },
       branch = "main",
       generate_requires_npm = true,
@@ -139,7 +137,6 @@ function M.setup_treesitter()
     },
     filetype = "mojo", "🔥"
   }
-
     require("nvim-treesitter.configs").setup {
     ensure_installed = { "mojo", "lua", "vim", "bash", "python" },
     highlight = {
@@ -174,7 +171,6 @@ local function setup_plugin(opts)
       },
     })
   end
-
   vim.api.nvim_create_autocmd('FileType', {
     pattern = 'mojo',
     callback = function()
@@ -184,50 +180,38 @@ local function setup_plugin(opts)
       end
     end,
   })
-
    M.setup_syntax(opts)
   M.setup_treesitter()
-
   if opts.format_on_save then
     M.setup_formatting()
   end
-
   if opts.enable_linting then
     M.setup_linting()
   end
-
   if opts.dap and opts.dap.enabled then
     M.setup_dap()
   end
-
   M._initialized = true
   return M
 end
-
-
 ---@param user_opts table|nil
 function M.setup(user_opts)
   user_opts = user_opts or {}
   return setup_plugin(user_opts)
 end
-
 if not vim.g.blaze_no_auto_setup then
   setup_plugin()
 end
-
 vim.api.nvim_create_user_command("Fever", function()
   print("🌡️ Running blaze.nvim Healthcheck...\n")
-
   local status = {
     ["treesitter (parser)"] = pcall(require, "nvim-treesitter.parsers"),
     ["null-ls"] = pcall(require, "null-ls"),
     ["dap"] = pcall(require, "dap"),
     ["mojo binary"] = vim.fn.executable("mojo") == 1,
   }
-
   for label, ok in pairs(status) do
     print(string.format("%s %s", ok and "✅" or "❌", label))
   end
 end, {})
-
 return M
