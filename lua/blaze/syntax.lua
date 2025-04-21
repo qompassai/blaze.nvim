@@ -5,7 +5,7 @@ function M.setup()
 
   parser_config.mojo = {
     install_info = {
-      url = "https://github.com/qompassai/blaze-ts",
+      url = "https://github.com/qompassai/blaze-ts.nvim",
       files = { "src/parser.c", "src/grammar.js" },
       branch = "main",
       generate_requires_npm = true,
@@ -21,7 +21,7 @@ function M.setup()
     pattern = {
       [".*%.mojo"] = "mojo",
       [".*%.🔥"] = "mojo",
-      [".*%.fire"] = "mojo",  -- Alternative extension
+      [".*%.fire"] = "mojo",
     },
   })
   vim.g.mojo_highlight_all = 1

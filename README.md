@@ -137,18 +137,17 @@ If `keymaps = true`, the following mappings are automatically registered:
 | `lua/blaze/dap.lua`        | Debug adapter setup via `nvim-dap`    |
 | `lua/blaze/formatting.lua` | Handles formatting with `mojo format` |
 | `lua/blaze/health.lua`     | 🔥 Which-Key Bindings                 |
-| `lua/blaze/keymap.lua`     | Which-Key bindings                    |
+| `lua/blaze/keymaps.lua`    | Which-Key bindings                    |
 | `lua/blaze/linting.lua`    | Integrates with `nvim-lint`           |
 | `lua/blaze/magic.lua`      | Magic integration                     |
 | `lua/blaze/pixi.lua`       | Pixi integration                      |
 
-| `plugin/blaze.lua` | Runtime plugin loader for Neovim |
 
 ## 🧰 Dependencies
 
 - [`nvim-dap`](https://github.com/mfussenegger/nvim-dap)
 - [`nvim-treesitter`](https://github.com/nvim-treesitter/nvim-treesitter)
-- ['blaze-ts'](https://github.com/qompassai/blaze-ts)
+- ['blaze-ts.nvim'](https://github.com/qompassai/blaze-ts.nvim)
 -
 - Optional (But recommended)
 - [magic-docker](https://github.com/modular/magic-docker)
@@ -200,7 +199,7 @@ If you like this project, consider [buying me a coffee](https://www.buymeacoffee
 
 ### Protection for Vulnerable Populations
 
-The dual licensing aims to address the cybersecurity gap that disproportionately affects underserved populations. As highlighted by recent attacks[^1], low-income residents, seniors, and foreign language speakers face higher-than-average risks of being victims of cyber attacks. By offering both open-source and commercial licensing options, we encourage the development of cybersecurity solutions that can reach these vulnerable groups while also enabling sustainable development and support.
+The dual licensing aims to address the cybersecurity gap that disproportionately affects underserved populations. As highlighted by recent attacks[^1], low-income residents, seniors, and foreign language speakers face higher-than-average risks of being victims of cyberattacks. By offering both open-source and commercial licensing options, we encourage the development of cybersecurity solutions that can reach these vulnerable groups while also enabling sustainable development and support.
 
 ### Preventing Malicious Use
 
@@ -216,7 +215,7 @@ The dual licensing model supports initiatives like the Cybersecurity and Infrast
 
 ### Bridging the Digital Divide
 
-The unfortunate reality is that a number of individuals and organizations have gone into a frenzy in every facet of our daily lives[^6]. These unfortunate folks identify themselves with their talk of "10X" returns and building towards Artificial General Intelligence aka "AGI" while offering GPT wrappers. Our dual licensing approach aims to acknowledge this deeply concerning predatory paradigm with clear eyes while still operating to bring the best parts of the open-source community with our services and solutions.
+The unfortunate reality is that too many individuals and organizations have gone into a frenzy in every facet of our daily lives[^6]. These unfortunate folks identify themselves with their talk of "10X" returns and building towards Artificial General Intelligence aka "AGI" while offering GPT wrappers. Our dual licensing approach aims to acknowledge this deeply concerning predatory paradigm with clear eyes while still operating to bring the best parts of the open-source community with our services and solutions.
 
 ### Recent Cybersecurity Attacks
 
@@ -225,7 +224,7 @@ Recent attacks underscore the importance of robust cybersecurity measures:
 - The Change Healthcare cyberattack in February 2024 affected millions of Americans and caused significant disruption to healthcare providers.
 - The White House and Congress jointly designated October 2024 as Cybersecurity Awareness Month. This designation comes with over 100 actions that align the Federal government and public/private sector partners are taking to help every man, woman, and child to safely navigate the age of AI.
 
-By offering both open-source and commercial licensing options, we strive to create a balance that promotes innovation and accessibility while also providing the necessary resources and flexibility to address the complex cybersecurity challenges faced by vulnerable populations and critical infrastructure sectors.
+By offering both open source and commercial licensing options, we strive to create a balance that promotes innovation and accessibility. We address the complex cybersecurity challenges faced by vulnerable populations and critical infrastructure sectors as the foundation of our solutions, not an afterthought..
 
 [^1]: [International Counter Ransomware Initiative 2024 Joint Statement](https://www.whitehouse.gov/briefing-room/statements-releases/2024/10/02/international-counter-ransomware-initiative-2024-joint-statement/)
 
