@@ -1,4 +1,5 @@
 --blaze.nvim/lazy.lua
+---------------------
 return {
   "qompassai/blaze.nvim",
   lazy = true,
