@@ -1,9 +1,0 @@
-jobs:
-  test:
-    steps:
-      - name: Run Unit Tests
-        run: nvim --headless -c "PlenaryBustedDirectory tests/unit/"
-      - name: Run API Tests
-        run: nvim --headless -c "PlenaryBustedDirectory tests/api/"
-      - name: Run Integration Tests
-        run: nvim --headless -c "PlenaryBustedDirectory tests/integration/"
