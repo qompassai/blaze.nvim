@@ -7,52 +7,11 @@
 ---@field blaze_no_auto_setup boolean
 local M = {}
 
-M.defaults = {
-  format_on_save = true,
-  enable_linting = true,
-  dap = {
-    enabled = true,
-  },
-  lsp = {
-    enabled = true,
-    mojo = {
-      enabled = true,
-      config = {},
-    },
-  },
-  indentation = {
-    expandtab = true,
-    shiftwidth = 4,
-  },
-  filetypes = {
-    emoji_extension = true,
-  },
-  pixi = {
-    enabled = true,
-    auto_detect = true,
-    config = {},
-    commands = {},
-    keymaps = {
-      enabled = true,
-      prefix = "<leader>p",
-    },
-    display = {
-      method = "float",  -- "split", "vsplit", "float", or "notify"
-      height = 15,
-      width = 80,
-    }
-  },
-  magic = {
-    enabled = true,
-    config = {},
-  },
-  syntax = {
-    enabled = true,
-    treesitter = { enabled = true },
-    fallback = { enabled = true, highlight_all = true },
-  },
-}
-M.options = {}
+local config = require("blaze.config")
+local M = {}
+
+M.defaults = config.defaults
+M.options = config.options
 
 function M.get_mojo_cmd()
   local is_windows = vim.fn.has('win32') == 1
@@ -147,8 +106,9 @@ function M.setup_treesitter()
 end
 
 local function setup_plugin(opts)
-  opts = vim.tbl_deep_extend('force', M.defaults, opts or {})
-  M.options = opts
+  opts = vim.tbl_deep_extend('force', config.defaults, opts or {})
+config.options = opts
+M.options = opts
 
   if opts.lsp and opts.lsp.enabled then
     require('blaze.lsp').setup_servers()

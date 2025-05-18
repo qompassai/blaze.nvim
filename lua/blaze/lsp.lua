@@ -1,9 +1,10 @@
--- lua/blaze/lsp.lua
-
+-- blaze.nvim/lua/blaze/lsp.lua
 local M = {}
 
 function M.setup_servers()
-  local options = require('blaze').options or require('blaze').defaults
+  local config = require("blaze.config")
+  local options = config.options or config.defaults
+
   local lspconfig_ok, lspconfig = pcall(require, 'lspconfig')
   if not lspconfig_ok then
     vim.notify("lspconfig not found, LSP features won't be available", vim.log.levels.WARN)
@@ -44,3 +45,4 @@ https://github.com/modularml/mojo
 end
 
 return M
+

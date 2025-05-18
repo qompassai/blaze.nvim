@@ -1,5 +1,7 @@
 -- blaze.nvim/lua/blaze/magic.lua
+
 local M = {}
+
 local function run_mojo_format()
   vim.notify("Formatting Mojo file...", vim.log.levels.INFO)
   local magic_path = M.get_magic_binary()
@@ -8,18 +10,8 @@ local function run_mojo_format()
     local cmd = magic_path .. ' format ' .. current_file
     return vim.fn.system(cmd)
   end
-
   vim.notify("No formatting method available", vim.log.levels.ERROR)
 end
-
-  vim.notify("No formatting method available", vim.log.levels.ERROR)
-M.defaults = {
-  enabled = true,
-  commands = {
-    list = true,
-  },
-  show_output = true,
-}
 
 function M.get_magic_binary()
   local os_name = vim.loop.os_uname().sysname:lower()
@@ -55,6 +47,20 @@ function M.get_magic_binary()
   return nil
 end
 
+function M.run_magic_command(subcommand, args)
+  local binary = M.get_magic_binary()
+  if not binary then
+    vim.notify("Magic binary not found", vim.log.levels.ERROR)
+    return
+  end
+  local cmd = binary .. ' ' .. subcommand .. ' ' .. (args or "")
+  local output = vim.fn.system(cmd)
+  if M.config and M.config.show_output then
+    vim.notify(output, vim.log.levels.INFO)
+  end
+  return output
+end
+
 function M.list(args) return M.run_magic_command("list", args) end
 function M.install(args) return M.run_magic_command("install", args) end
 function M.update(args) return M.run_magic_command("update", args) end
@@ -69,6 +75,7 @@ function M.self_update() return M.run_magic_command("self-update", "") end
 function M.completion(shell) return M.run_magic_command("completion", "--shell " .. (shell or "bash")) end
 function M.telemetry() return M.run_magic_command("telemetry", "--help") end
 function M.help() return M.run_magic_command("help", "") end
+
 function M.setup_keymaps()
   local wk_ok, wk = pcall(require, "which-key")
   local map = vim.keymap.set
@@ -93,18 +100,15 @@ function M.setup_keymaps()
     L = { function() M.list() end, "📋 List packages" },
   }
 
- if wk_ok then
-    ---@type table<string, table>
+  if wk_ok then
     local wk_mappings = {
       ["<leader>m"] = {
         name = "+🔥 Mojo",
       }
     }
-       for key, mapping in pairs(magic_commands) do
-      ---@diagnostic disable-next-line: param-type-mismatch
+    for key, mapping in pairs(magic_commands) do
       wk_mappings["<leader>m"][key] = mapping
     end
-
     wk.register(wk_mappings)
   else
     for key, mapping in pairs(magic_commands) do
@@ -112,12 +116,15 @@ function M.setup_keymaps()
     end
   end
 end
-function M.setup(opts)
-  opts = opts or {}
-  M.config = vim.tbl_deep_extend("force", M.defaults, opts)
+
+function M.setup(user_opts)
+  local config = require("blaze.config")
+  local opts = vim.tbl_deep_extend("force", config.options.magic or {}, user_opts or {})
+  config.options.magic = opts
+  M.config = opts
 
   if not M.get_magic_binary() then
-    if M.config.show_output then
+    if opts.show_output then
       vim.notify("Magic binary not found. Some features may not work.", vim.log.levels.WARN)
     end
   end
@@ -125,3 +132,5 @@ function M.setup(opts)
   M.setup_keymaps()
   return M
 end
+
+return M
