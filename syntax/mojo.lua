@@ -1,11 +1,9 @@
--- syntax/blaze.lua
--- Converted from Vimscript to Lua-compatible Neovim syntax registration
+-- syntax/mojo.lua
 -- Includes full highlighting rules from legacy mojo.vim
 
 if vim.g.b_current_syntax then return end
 vim.g.b_current_syntax = "mojo"
 
--- Optional toggles
 if vim.g.mojo_highlight_all then
   vim.g.mojo_no_builtin_highlight = nil
   vim.g.mojo_no_doctest_code_highlight = nil
@@ -15,7 +13,6 @@ if vim.g.mojo_highlight_all then
   vim.g.mojo_space_error_highlight = 1
 end
 
--- Keywords
 vim.cmd [[
   syntax keyword mojoStatement False None True as assert break continue del global
   syntax keyword mojoStatement lambda nonlocal pass return with yield
@@ -29,7 +26,6 @@ vim.cmd [[
   syntax keyword mojoKeywords var let
 ]]
 
--- Match rules
 vim.cmd [[
   syntax match mojoComment "#.*$" contains=mojoTodo,@Spell
   syntax keyword mojoTodo FIXME NOTE NOTES TODO XXX contained
@@ -40,7 +36,6 @@ vim.cmd [[
   syntax match mojoAttribute /\.\h\w*/hs=s+1 contains=ALLBUT,mojoBuiltin,mojoFunction,mojoAsync
 ]]
 
--- Number literals
 if not vim.g.mojo_no_number_highlight then
   vim.cmd [[
     syntax match mojoNumber "\<0[oO]\=\o\+[Ll]\=\>"
@@ -54,7 +49,6 @@ if not vim.g.mojo_no_number_highlight then
   ]]
 end
 
--- Builtin functions/constants
 if not vim.g.mojo_no_builtin_highlight then
   vim.cmd [[
     syntax keyword mojoBuiltin NotImplemented Ellipsis __debug__ quit exit copyright credits license
@@ -68,7 +62,6 @@ if not vim.g.mojo_no_builtin_highlight then
   ]]
 end
 
--- Exceptions
 if not vim.g.mojo_no_exception_highlight then
   vim.cmd [[
     syntax keyword mojoExceptions BaseException Exception ArithmeticError BufferError LookupError
@@ -89,7 +82,6 @@ if not vim.g.mojo_no_exception_highlight then
   ]]
 end
 
--- Space errors
 if vim.g.mojo_space_error_highlight then
   vim.cmd [[
     syntax match mojoSpaceError display excludenl "\s\+$"
@@ -98,7 +90,6 @@ if vim.g.mojo_space_error_highlight then
   ]]
 end
 
--- Highlight links
 vim.cmd [[
   hi def link mojoStatement Statement
   hi def link mojoConditional Conditional
