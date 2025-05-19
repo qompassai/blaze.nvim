@@ -6,7 +6,10 @@ on:
 
 jobs:
   flakehub-publish:
-    runs-on: [self-hosted, linux, x64]
+    strategy:
+      matrix:
+        system: [x86_64-linux, aarch64-linux, aarch64-darwin]
+          runs-on: [self-hosted, linux, x64, ${{ matrix.system }}]
     permissions:
       id-token: write
       contents: read
@@ -15,6 +18,6 @@ jobs:
       - uses: DeterminateSystems/nix-installer-action@main
       - uses: DeterminateSystems/flakehub-push@main
         with:
-          name: qompassai/Blaze.nvim
+          name: qompassai/blaze.nvim
           rolling: true
           visibility: public
