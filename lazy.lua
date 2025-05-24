@@ -1,21 +1,22 @@
---blaze.nvim/lazy.lua
----------------------
+--/qompassai/blaze.nvim/lazy.lua
+-- --------------------------------------
+-- Copyright (C) 2025 Qompass AI, All rights reserved
 return {
-  "qompassai/blaze.nvim",
+  'qompassai/blaze.nvim',
   lazy = true,
-  ft = { "mojo", "🔥" },
+  ft = { 'mojo', '🔥' },
   config = function()
-    require("blaze").setup()
+    require('blaze').setup()
   end,
   dependencies = {
-   "williamboman/mason.nvim",
-  "williamboman/mason-lspconfig.nvim",
-   "neovim/nvim-lspconfig",
-    "mfussenegger/nvim-dap",
-    "rcarriga/nvim-dap-ui",
-    "jay-babu/mason-nvim-dap.nvim",
-    "mfussenegger/nvim-dap-python",
-    "nvimtools/none-ls.nvim",
-    "zeioth/none-ls-autoload.nvim",
-  }
+    'williamboman/mason.nvim',
+    'williamboman/mason-lspconfig.nvim',
+    'neovim/nvim-lspconfig',
+    'mfussenegger/nvim-dap',
+    'rcarriga/nvim-dap-ui',
+    'jay-babu/mason-nvim-dap.nvim',
+    'mfussenegger/nvim-dap-python',
+    'nvimtools/none-ls.nvim',
+    'zeioth/none-ls-autoload.nvim',
+  },
 }

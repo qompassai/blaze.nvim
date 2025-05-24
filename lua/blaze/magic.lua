@@ -1,16 +1,18 @@
--- blaze.nvim/lua/blaze/magic.lua
+-- /qompassai/blaze.nvim/lua/blaze/magic.lua
+-- -----------------------------------------------
+-- Copyright (C) 2025 Qompass AI, All rights reserved
 
 local M = {}
 
 local function run_mojo_format()
-  vim.notify("Formatting Mojo file...", vim.log.levels.INFO)
+  vim.notify('Formatting Mojo file...', vim.log.levels.INFO)
   local magic_path = M.get_magic_binary()
   if magic_path then
     local current_file = vim.fn.expand('%:p')
     local cmd = magic_path .. ' format ' .. current_file
     return vim.fn.system(cmd)
   end
-  vim.notify("No formatting method available", vim.log.levels.ERROR)
+  vim.notify('No formatting method available', vim.log.levels.ERROR)
 end
 
 function M.get_magic_binary()
@@ -18,25 +20,25 @@ function M.get_magic_binary()
   local home = vim.env.HOME or vim.fn.expand('~')
   local possible_paths = {}
 
-  if os_name:match("darwin") or os_name:match("mac") then
-    table.insert(possible_paths, home .. "/.modular/bin/magic")
-    table.insert(possible_paths, "/usr/local/bin/magic")
-    table.insert(possible_paths, "/opt/local/bin/magic")
-    table.insert(possible_paths, "/usr/bin/magic")
-    table.insert(possible_paths, "/bin/magic")
-    table.insert(possible_paths, home .. "/bin/magic")
-  elseif os_name:match("windows") or os_name:match("win") then
-    table.insert(possible_paths, home .. "\\.modular\\bin\\magic.exe")
-    table.insert(possible_paths, "C:\\Program Files\\magic.exe")
-    table.insert(possible_paths, "C:\\Program Files (x86)\\magic.exe")
-    table.insert(possible_paths, os.getenv("LOCALAPPDATA") .. "\\bin\\magic.exe")
-    table.insert(possible_paths, "C:\\bin\\magic.exe")
+  if os_name:match('darwin') or os_name:match('mac') then
+    table.insert(possible_paths, home .. '/.modular/bin/magic')
+    table.insert(possible_paths, '/usr/local/bin/magic')
+    table.insert(possible_paths, '/opt/local/bin/magic')
+    table.insert(possible_paths, '/usr/bin/magic')
+    table.insert(possible_paths, '/bin/magic')
+    table.insert(possible_paths, home .. '/bin/magic')
+  elseif os_name:match('windows') or os_name:match('win') then
+    table.insert(possible_paths, home .. '\\.modular\\bin\\magic.exe')
+    table.insert(possible_paths, 'C:\\Program Files\\magic.exe')
+    table.insert(possible_paths, 'C:\\Program Files (x86)\\magic.exe')
+    table.insert(possible_paths, os.getenv('LOCALAPPDATA') .. '\\bin\\magic.exe')
+    table.insert(possible_paths, 'C:\\bin\\magic.exe')
   else
-    table.insert(possible_paths, home .. "/.modular/bin/magic")
-    table.insert(possible_paths, "/usr/local/bin/magic")
-    table.insert(possible_paths, "/usr/bin/magic")
-    table.insert(possible_paths, "/bin/magic")
-    table.insert(possible_paths, home .. "/bin/magic")
+    table.insert(possible_paths, home .. '/.modular/bin/magic')
+    table.insert(possible_paths, '/usr/local/bin/magic')
+    table.insert(possible_paths, '/usr/bin/magic')
+    table.insert(possible_paths, '/bin/magic')
+    table.insert(possible_paths, home .. '/bin/magic')
   end
 
   for _, path in ipairs(possible_paths) do
@@ -50,10 +52,10 @@ end
 function M.run_magic_command(subcommand, args)
   local binary = M.get_magic_binary()
   if not binary then
-    vim.notify("Magic binary not found", vim.log.levels.ERROR)
+    vim.notify('Magic binary not found', vim.log.levels.ERROR)
     return
   end
-  local cmd = binary .. ' ' .. subcommand .. ' ' .. (args or "")
+  local cmd = binary .. ' ' .. subcommand .. ' ' .. (args or '')
   local output = vim.fn.system(cmd)
   if M.config and M.config.show_output then
     vim.notify(output, vim.log.levels.INFO)
@@ -61,71 +63,174 @@ function M.run_magic_command(subcommand, args)
   return output
 end
 
-function M.list(args) return M.run_magic_command("list", args) end
-function M.install(args) return M.run_magic_command("install", args) end
-function M.update(args) return M.run_magic_command("update", args) end
-function M.lock() return M.run_magic_command("lock", "") end
-function M.exec(args) return M.run_magic_command("exec", args) end
-function M.shell() return M.run_magic_command("shell", "") end
-function M.tree() return M.run_magic_command("tree", "") end
-function M.global(args) return M.run_magic_command("global", args) end
-function M.build() return M.run_magic_command("build", "") end
-function M.clean() return M.run_magic_command("clean", "") end
-function M.self_update() return M.run_magic_command("self-update", "") end
-function M.completion(shell) return M.run_magic_command("completion", "--shell " .. (shell or "bash")) end
-function M.telemetry() return M.run_magic_command("telemetry", "--help") end
-function M.help() return M.run_magic_command("help", "") end
+function M.list(args)
+  return M.run_magic_command('list', args)
+end
+function M.install(args)
+  return M.run_magic_command('install', args)
+end
+function M.update(args)
+  return M.run_magic_command('update', args)
+end
+function M.lock()
+  return M.run_magic_command('lock', '')
+end
+function M.exec(args)
+  return M.run_magic_command('exec', args)
+end
+function M.shell()
+  return M.run_magic_command('shell', '')
+end
+function M.tree()
+  return M.run_magic_command('tree', '')
+end
+function M.global(args)
+  return M.run_magic_command('global', args)
+end
+function M.build()
+  return M.run_magic_command('build', '')
+end
+function M.clean()
+  return M.run_magic_command('clean', '')
+end
+function M.self_update()
+  return M.run_magic_command('self-update', '')
+end
+function M.completion(shell)
+  return M.run_magic_command('completion', '--shell ' .. (shell or 'bash'))
+end
+function M.telemetry()
+  return M.run_magic_command('telemetry', '--help')
+end
+function M.help()
+  return M.run_magic_command('help', '')
+end
 
 function M.setup_keymaps()
-  local wk_ok, wk = pcall(require, "which-key")
+  local wk_ok, wk = pcall(require, 'which-key')
   local map = vim.keymap.set
   local opts = { noremap = true, silent = true }
 
   local magic_commands = {
-    f = { function() run_mojo_format() end, "🔥 Format via magic" },
-    h = { "<cmd>Fever<CR>", "🌡️ Health Check" },
-    i = { function() M.install("mojo") end, "❤️🔥 Install 🔥" },
-    u = { function() M.update() end, "📦 Update deps" },
-    l = { function() M.lock() end, "🔒 Lock env" },
-    x = { function() M.exec() end, "🧙‍♂️ Exec shell cmd" },
-    s = { function() M.shell() end, "🔮 Magic shell" },
-    t = { function() M.tree() end, "🌲 Dep tree" },
-    g = { function() M.global() end, "🌍 Global pkg" },
-    b = { function() M.build() end, "🔨 Build 🔥" },
-    c = { function() M.clean() end, "🧹 Clean build cache" },
-    v = { function() M.self_update() end, "✨ Self Update" },
-    C = { function() M.completion("bash") end, "🧩 Shell Completion" },
-    T = { function() M.telemetry() end, "🚱 Telemetry Settings" },
-    H = { function() M.help() end, "📜 Help Overview" },
-    L = { function() M.list() end, "📋 List packages" },
+    f = {
+      function()
+        run_mojo_format()
+      end,
+      '🔥 Format via magic',
+    },
+    h = { '<cmd>Fever<CR>', '🌡️ Health Check' },
+    i = {
+      function()
+        M.install('mojo')
+      end,
+      '❤️🔥 Install 🔥',
+    },
+    u = {
+      function()
+        M.update()
+      end,
+      '📦 Update deps',
+    },
+    l = {
+      function()
+        M.lock()
+      end,
+      '🔒 Lock env',
+    },
+    x = {
+      function()
+        M.exec()
+      end,
+      '🧙‍♂️ Exec shell cmd',
+    },
+    s = {
+      function()
+        M.shell()
+      end,
+      '🔮 Magic shell',
+    },
+    t = {
+      function()
+        M.tree()
+      end,
+      '🌲 Dep tree',
+    },
+    g = {
+      function()
+        M.global()
+      end,
+      '🌍 Global pkg',
+    },
+    b = {
+      function()
+        M.build()
+      end,
+      '🔨 Build 🔥',
+    },
+    c = {
+      function()
+        M.clean()
+      end,
+      '🧹 Clean build cache',
+    },
+    v = {
+      function()
+        M.self_update()
+      end,
+      '✨ Self Update',
+    },
+    C = {
+      function()
+        M.completion('bash')
+      end,
+      '🧩 Shell Completion',
+    },
+    T = {
+      function()
+        M.telemetry()
+      end,
+      '🚱 Telemetry Settings',
+    },
+    H = {
+      function()
+        M.help()
+      end,
+      '📜 Help Overview',
+    },
+    L = {
+      function()
+        M.list()
+      end,
+      '📋 List packages',
+    },
   }
 
   if wk_ok then
     local wk_mappings = {
-      ["<leader>m"] = {
-        name = "+🔥 Mojo",
-      }
+      ['<leader>m'] = {
+        name = '+🔥 Mojo',
+      },
     }
     for key, mapping in pairs(magic_commands) do
-      wk_mappings["<leader>m"][key] = mapping
+      wk_mappings['<leader>m'][key] = mapping
     end
     wk.register(wk_mappings)
   else
     for key, mapping in pairs(magic_commands) do
-      map("n", "<leader>m" .. key, mapping[1], vim.tbl_extend("force", opts, { desc = mapping[2] }))
+      map('n', '<leader>m' .. key, mapping[1], vim.tbl_extend('force', opts, { desc = mapping[2] }))
     end
   end
 end
 
 function M.setup(user_opts)
-  local config = require("blaze.config")
-  local opts = vim.tbl_deep_extend("force", config.options.magic or {}, user_opts or {})
+  local config = require('blaze.config')
+  local opts = vim.tbl_deep_extend('force', config.options.magic or {}, user_opts or {})
   config.options.magic = opts
   M.config = opts
 
   if not M.get_magic_binary() then
     if opts.show_output then
-      vim.notify("Magic binary not found. Some features may not work.", vim.log.levels.WARN)
+      vim.notify('Magic binary not found. Some features may not work.', vim.log.levels.WARN)
     end
   end
 

@@ -1,4 +1,4 @@
---/blaze.nvim/lua/blaze/config.lua
+--/qompassai/blaze.nvim/lua/blaze/config.lua
 -- ---------------------------------------------
 -- Copyright (C) 2025 Qompass AI, All rights reserved
 
@@ -36,13 +36,13 @@ M.defaults = {
     commands = {},
     keymaps = {
       enabled = true,
-      prefix = "<leader>p",
+      prefix = '<leader>p',
     },
     display = {
-      method = "float",  -- options: "split", "vsplit", "float", "notify"
+      method = 'float', -- options: "split", "vsplit", "float", "notify"
       height = 15,
       width = 80,
-    }
+    },
   },
 
   magic = {
@@ -69,4 +69,3 @@ M.defaults = {
 M.options = vim.deepcopy(M.defaults)
 
 return M
-
