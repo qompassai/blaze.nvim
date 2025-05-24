@@ -101,7 +101,7 @@ function M.setup_treesitter()
   parser_config.mojo = {
     install_info = {
       url = 'https://github.com/qompassai/blaze-ts.nvim',
-      files = { 'src/parser.c', 'src/grammar.js', 'src/scanner.c' },
+      files = { 'src/parser.c', 'src/grammar.js', 'src/scanner.c', 'main.zig', 'root.zig' },
       branch = 'main',
       requires_generate_from_grammar = true,
     },
