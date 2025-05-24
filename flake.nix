@@ -99,20 +99,23 @@
 }{
   description = "Blaze.nvim - Quantum-Ready Mojo Language Support for Neovim";
 
+  {
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
     flake-utils.url = "github:numtide/flake-utils";
     neovim-nightly.url = "github:neovim/neovim?dir=contrib";
-    mojo-sdk.url = "https://developer.modular.com/download/mojo-linux-0.7.0.tar.gz";
-    mojo-sdk.flake = false;
+    mojo-dev = {
+      url = "https://developer.modular.com/download/mojo-linux-25.3.0.dev2025040205.tar.gz";
+      flake = false;
+    };
     quantum-sim = {
-      url = "github:quantumlib/qsim";
+      url = "github:quantumlib/qsim/v0.9.0";
       inputs.nixpkgs.follows = "nixpkgs";
     };
   };
 
-  outputs = { self, nixpkgs, flake-utils, neovim-nightly, mojo-sdk, quantum-sim, ... }@inputs:
-    flake-utils.lib.eachSystem [ "x86_64-linux" "aarch64-linux" "x86_64-darwin" ] (system:
+  outputs = { self, nixpkgs, flake-utils, neovim-nightly, mojo-dev, quantum-sim, ... }@inputs:
+    flake-utils.lib.eachSystem [ "x86_64-linux" "aarch64-linux" ] (system:
       let
         pkgs = import nixpkgs {
           inherit system;
@@ -120,14 +123,18 @@
             (self: super: {
               neovim-unwrapped = neovim-nightly.packages.${system}.neovim;
               mojo = super.stdenv.mkDerivation {
-                name = "mojo-0.7.0";
-                src = mojo-sdk;
+                name = "mojo-25.3.0.dev2025040205";
+                src = mojo-dev;
                 installPhase = ''
                   mkdir -p $out
                   cp -r * $out/
                   wrapProgram $out/bin/mojo \
-                    --prefix PATH : ${super.lib.makeBinPath [ super.python3 ]}
+                    --prefix PATH : ${super.lib.makeBinPath [ super.python311 ]}
                 '';
+                meta = {
+                  license = super.lib.licenses.unfree;
+                  platforms = super.lib.platforms.linux;
+                };
               };
             })
             quantum-sim.overlays.default
@@ -226,4 +233,3 @@
         };
       });
 }
-
