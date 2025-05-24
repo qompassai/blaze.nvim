@@ -10,7 +10,6 @@
 
 Under Active development expect breaking changes until stable release**
 
-
 ![Repository Views](https://komarev.com/ghpvc/?username=qompassai-blaze.nvim)
 ![GitHub all releases](https://img.shields.io/github/downloads/qompassai/blaze.nvim/total?style=flat-square)
 

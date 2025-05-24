@@ -1,4 +1,6 @@
--- lua/mojo/formatting.lua
+-- /qompassai/blaze.nvim/lua/blaze/formatting.lua
+-- ------------------------------------------------------
+-- Copyright (C) 2025 Qompass AI, All rights reserved
 
 local M = {}
 
@@ -8,7 +10,10 @@ function M.setup()
 
   local mojo_config = require("mojo").options or {}
 
-  local line_length = mojo_config.line_length or 88
+  local mojo_config = {
+  line_length = 88,
+  format_on_save = true
+}
 
   null_ls.register({
     name = "mojo_format",
@@ -43,4 +48,3 @@ end, { desc = "Run mojo format using magic" })
 end
 
 return M
-

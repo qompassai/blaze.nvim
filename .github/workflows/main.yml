@@ -1,3 +1,7 @@
+# /qompassai/blaze.nvim/.github/workflows/main.yml
+# --------------------------------------------------------
+# Copyright (C) 2025 Qompass AI, All rights reserved
+
 name: CI
 on:
   push:
