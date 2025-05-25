@@ -1,16 +1,16 @@
---blaze.nvim/lua/blaze/ft/blaze.lua
+-- /qompassai/blaze.nvim/lua/blaze/ft/blaze.lua
+-- -----------------------------------------------
+-- Copyright (C) 2025 Qompass AI, All rights reserved
 local M = {}
-
 function M.setup()
   vim.filetype.add({
     extension = {
-      mojo = "mojo",
-      ["🔥"] = "mojo",
+      mojo = 'mojo',
+      ['🔥'] = 'mojo',
     },
     pattern = {
-      [".*%.🔥"] = "mojo",
+      ['.*%.🔥'] = 'mojo',
     },
   })
 end
-
 return M

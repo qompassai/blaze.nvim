@@ -1,17 +1,13 @@
 --/qompassai/blaze.nvim/lua/blaze/config.lua
 -- ---------------------------------------------
 -- Copyright (C) 2025 Qompass AI, All rights reserved
-
 local M = {}
-
 M.defaults = {
   format_on_save = true,
   enable_linting = true,
-
   dap = {
     enabled = true,
   },
-
   lsp = {
     enabled = true,
     mojo = {
@@ -19,16 +15,13 @@ M.defaults = {
       config = {},
     },
   },
-
   indentation = {
     expandtab = true,
     shiftwidth = 4,
   },
-
   filetypes = {
     emoji_extension = true,
   },
-
   pixi = {
     enabled = true,
     auto_detect = true,
@@ -44,7 +37,6 @@ M.defaults = {
       width = 80,
     },
   },
-
   magic = {
     enabled = true,
     config = {},
@@ -53,7 +45,6 @@ M.defaults = {
       list = true,
     },
   },
-
   syntax = {
     enabled = true,
     treesitter = {
@@ -65,7 +56,5 @@ M.defaults = {
     },
   },
 }
-
 M.options = vim.deepcopy(M.defaults)
-
 return M
