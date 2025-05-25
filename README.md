@@ -12,9 +12,14 @@ Under Active development expect breaking changes until stable release**
 
 ![Repository Views](https://komarev.com/ghpvc/?username=qompassai-blaze.nvim)
 ![GitHub all releases](https://img.shields.io/github/downloads/qompassai/blaze.nvim/total?style=flat-square)
-
-  <a href="https://www.lua.org/"><img src="https://img.shields.io/badge/Lua-2C2D72?style=for-the-badge&logo=lua&logoColor=white" alt="Lua"></a>
-  <br>
+<p align="center">
+<a href="https://luarocks.org/modules/phaedrusflow/blaze.nvim">
+<img src="https://img.shields.io/luarocks/dt/blaze.nvim?color=blue&label=LuaRocks%20downloads" alt="LuaRocks Downloads">
+</a>
+<a href="https://luarocks.org/modules/phaedrusflow/blaze.nvim">
+<img src="https://img.shields.io/luarocks/v/blaze.nvim?color=orange&label=LuaRocks%20version" alt="LuaRocks Version">
+<a href="https://www.lua.org/"><img src="https://img.shields.io/badge/Lua-2C2D72?style=for-the-badge&logo=lua&logoColor=white" alt="Lua"></a>
+<br>
   <a href="https://www.lua.org/docs.html"><img src="https://img.shields.io/badge/Lua-Documentation-blue?style=flat-square" alt="Lua Documentation"></a>
   <a href="https://github.com/topics/lua-tutorial"><img src="https://img.shields.io/badge/Lua-Tutorials-green?style=flat-square" alt="Lua Tutorials"></a>
   <br>
