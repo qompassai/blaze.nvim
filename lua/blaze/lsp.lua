@@ -1,6 +1,6 @@
 -- /qompassai/blaze.nvim/lua/blaze/lsp.lua
--- ------------------------------------------------------
 -- Copyright (C) 2025 Qompass AI, All rights reserved
+-- ------------------------------------------------------
 local M = {}
 function M.setup_servers()
   local config = require('blaze.config')
@@ -24,7 +24,7 @@ function M.setup_servers()
         },
         docs = {
           description = [[
-https://github.com/modularml/mojo
+https://github.com/neovim/nvim-lspconfig/blob/master/lua/lspconfig/configs/mojo.lua
 `mojo-lsp-server` can be installed [via Modular](https://developer.modular.com/download)
 🔥 is a new programming language that bridges the gap between research and production by combining Python syntax and ecosystem with systems programming and metaprogramming features.
 ]],

@@ -1,67 +1,21 @@
 -- /qompassai/blaze.nvim/lua/blaze/init.lua
 -- -----------------------------------------------
 -- Copyright (C) 2025 Qompass AI, All rights reserved
---luacheck
+
 ---@class vim.var_accessor
 ---@field blaze_using_treesitter boolean
 ---@field mojo_highlight_all number
 ---@field blaze_no_auto_setup boolean
 local M = {}
 local config = require('blaze.config')
-local M = {}
+local mojo_paths = require('mojo.paths')
 M.defaults = config.defaults
 M.options = config.options
 function M.get_mojo_cmd()
-  local is_windows = vim.fn.has('win32') == 1
-  local is_mac = vim.fn.has('macunix') == 1
-  local paths = {}
-  if is_windows then
-    if vim.env.LOCALAPPDATA then
-      table.insert(paths, vim.env.LOCALAPPDATA .. '\\Programs\\Mojo\\mojo.exe')
-    end
-    table.insert(paths, 'C:\\Program Files\\Mojo\\mojo.exe')
-  else
-    if vim.env.HOME then
-      table.insert(paths, vim.env.HOME .. '/.local/bin/mojo')
-    end
-    if is_mac then
-      table.insert(paths, '/usr/local/bin/mojo')
-      table.insert(paths, '/opt/homebrew/bin/mojo')
-    else
-      table.insert(paths, '/usr/local/bin/mojo')
-      table.insert(paths, '/usr/bin/mojo')
-    end
-  end
-  local env_path_separator = is_windows and '\\' or '/'
-  local exe_extension = is_windows and '.exe' or ''
-  if vim.env.PIXI_HOME then
-    table.insert(
-      paths,
-      vim.env.PIXI_HOME
-        .. env_path_separator
-        .. 'bin'
-        .. env_path_separator
-        .. 'mojo'
-        .. exe_extension
-    )
-  end
-  if vim.env.MAGIC_HOME then
-    table.insert(
-      paths,
-      vim.env.MAGIC_HOME
-        .. env_path_separator
-        .. 'bin'
-        .. env_path_separator
-        .. 'magic'
-        .. exe_extension
-    )
-  end
-  for _, path in ipairs(paths) do
-    if path and vim.fn.executable(path) == 1 then
-      return { path, 'lsp' }
-    end
-  end
-  return { 'mojo', 'lsp' }
+  return mojo_paths.find_mojo_executable()
+end
+function M.get_mojo_lsp_cmd()
+  return mojo_paths.find_mojo_lsp()
 end
 function M.setup_syntax(opts)
   if not (opts and opts.syntax and opts.syntax.enabled) then
@@ -73,7 +27,6 @@ function M.setup_syntax(opts)
   else
     if opts and opts.syntax and opts.syntax.fallback and opts.syntax.fallback.enabled then
       vim.g.mojo_highlight_all = opts.syntax.fallback.highlight_all and 1 or 0
-
       vim.api.nvim_create_autocmd('FileType', {
         pattern = 'mojo',
         callback = function()
@@ -136,6 +89,7 @@ local function setup_plugin(opts)
     vim.filetype.add({
       extension = {
         mojo = 'mojo',
+        ['🔥'] = 'mojo',
       },
     })
   end
@@ -145,6 +99,7 @@ local function setup_plugin(opts)
       if opts.indentation then
         vim.bo.shiftwidth = opts.indentation.shiftwidth
         vim.bo.expandtab = opts.indentation.expandtab
+        vim.b.mojo_indent = opts.indentation
       end
     end,
   })
@@ -167,19 +122,22 @@ function M.setup(user_opts)
   user_opts = user_opts or {}
   return setup_plugin(user_opts)
 end
-if not vim.g.blaze_no_auto_setup then
-  setup_plugin()
-end
 vim.api.nvim_create_user_command('Fever', function()
   print('🌡️ Running blaze.nvim Healthcheck...\n')
+  local mojo_cmd = M.get_mojo_cmd()
   local status = {
     ['treesitter (parser)'] = pcall(require, 'nvim-treesitter.parsers'),
     ['null-ls'] = pcall(require, 'null-ls'),
     ['dap'] = pcall(require, 'dap'),
-    ['mojo binary'] = vim.fn.executable('mojo') == 1,
+    ['mojo binary'] = vim.fn.executable(mojo_cmd[1]) == 1,
+    ['mojo path'] = mojo_cmd[1],
   }
   for label, ok in pairs(status) do
-    print(string.format('%s %s', ok and '✅' or '❌', label))
+    if label == 'mojo path' then
+      print(string.format('📍 %s: %s', label, ok))
+    else
+      print(string.format('%s %s', ok and '✅' or '❌', label))
+    end
   end
 end, {})
 return M

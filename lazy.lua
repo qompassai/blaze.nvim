@@ -9,6 +9,12 @@ return {
     vim.g.blaze_no_auto_setup = true
     require('blaze').setup({
       format_on_save = true,
+       indentation = {
+        expandtab = true,
+        shiftwidth = 4,
+        closed_paren_align_last_line = true,
+        continue = "shiftwidth() * 2",
+        },
       enable_linting = true,
       dap = {
         enabled = true,
