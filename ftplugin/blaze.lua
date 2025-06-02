@@ -1,4 +1,4 @@
--- ftplugin/mojo.lua
+-- ftplugin/blaze.lua
 -- luacheck: globals vim ipairs pairs type loadstring
 ---@diagnostic disable: undefined-field, undefined-global, need-check-nil
 
