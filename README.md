@@ -10,7 +10,7 @@
 
 <p align="center">**
 
-Under Active development expect breaking changes until stable release\*\*
+**Under Active development expect breaking changes until stable release**
 
 ![GitHub all releases](https://img.shields.io/github/downloads/qompassai/blaze.nvim/total?style=flat-square)
 
