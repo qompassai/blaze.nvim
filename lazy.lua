@@ -25,7 +25,7 @@ return {
         mojo = {
           enabled = true,
           config = {
-            capabilities = require('cmp_nvim_lsp').default_capabilities(),
+            capabilities = require('blink.cmp').get_lsp_capabilities(),
             handlers = {
               ['textDocument/hover'] = vim.lsp.with(vim.lsp.handlers.hover, {
                 border = 'rounded',
@@ -110,8 +110,7 @@ return {
       'williamboman/mason.nvim',
       'williamboman/mason-lspconfig.nvim',
       'neovim/nvim-lspconfig',
-      'hrsh7th/cmp-nvim-lsp',
-      'hrsh7th/nvim-cmp',
+      'saghen/blink.cmp',
       'mfussenegger/nvim-dap',
       'rcarriga/nvim-dap-ui',
       'jay-babu/mason-nvim-dap.nvim',
