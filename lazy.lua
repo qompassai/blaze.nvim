@@ -1,21 +1,22 @@
---/qompassai/blaze.nvim/lazy.lua
--- --------------------------------------
--- Copyright (C) 2025 Qompass AI, All rights reserved
+-- /qompassai/diver/lua/plugins/lang/mojo.lua
+-- ----------------------------------------
+-- copyright (c) 2025 qompass ai, all rights reserved
 return {
-  'qompassai/blaze.nvim',
-  lazy = true,
-  ft = { 'mojo', '🔥' },
-  config = function()
-    vim.g.blaze_no_auto_setup = true
-    require('blaze').setup({
+  {
+    'qompassai/blaze.nvim',
+    ft = { 'mojo', '🔥' },
+    init = function()
+      vim.g.blaze_no_auto_setup = true
+    end,
+    opts = {
       format_on_save = true,
-       indentation = {
+      enable_linting = true,
+      indentation = {
         expandtab = true,
         shiftwidth = 4,
         closed_paren_align_last_line = true,
-        continue = "shiftwidth() * 2",
-        },
-      enable_linting = true,
+        continue = 'shiftwidth() * 2',
+      },
       dap = {
         enabled = true,
       },
@@ -26,11 +27,11 @@ return {
           config = {
             capabilities = require('cmp_nvim_lsp').default_capabilities(),
             handlers = {
-              ["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, {
-                border = "rounded",
+              ['textDocument/hover'] = vim.lsp.with(vim.lsp.handlers.hover, {
+                border = 'rounded',
               }),
-              ["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers.signature_help, {
-                border = "rounded",
+              ['textDocument/signatureHelp'] = vim.lsp.with(vim.lsp.handlers.signature_help, {
+                border = 'rounded',
               }),
             },
             on_attach = function(client, bufnr)
@@ -51,7 +52,7 @@ return {
               vim.keymap.set({ 'n', 'v' }, '<leader>ca', vim.lsp.buf.code_action, opts)
               vim.keymap.set('n', 'gr', vim.lsp.buf.references, opts)
               vim.keymap.set('n', '<leader>f', function()
-                vim.lsp.buf.format { async = true }
+                vim.lsp.buf.format({ async = true })
               end, opts)
             end,
             settings = {
@@ -64,18 +65,11 @@ return {
             },
             root_dir = function(fname)
               local lspconfig = require('lspconfig')
-              return lspconfig.util.find_git_ancestor(fname) 
-                or lspconfig.util.find_node_modules_ancestor(fname)
-                or vim.fn.getcwd()
+              return lspconfig.util.find_git_ancestor(fname) or lspconfig.util.find_node_modules_ancestor(fname) or vim.fn.getcwd()
             end,
-            init_options = {
-            },
+            init_options = {},
           },
         },
-      },
-      indentation = {
-        expandtab = true,
-        shiftwidth = 4,
       },
       filetypes = {
         emoji_extension = true,
@@ -110,25 +104,58 @@ return {
           highlight_all = true,
         },
       },
-    })
-  end,
-  dependencies = {
-    'nvim-treesitter/nvim-treesitter',
-    'williamboman/mason.nvim',
-    'williamboman/mason-lspconfig.nvim', 
-    'neovim/nvim-lspconfig',
-    'hrsh7th/cmp-nvim-lsp',
-    'hrsh7th/nvim-cmp',
-    'mfussenegger/nvim-dap',
-    'rcarriga/nvim-dap-ui',
-    'jay-babu/mason-nvim-dap.nvim',
-    'mfussenegger/nvim-dap-python',
-    'nvimtools/none-ls.nvim',
-    'zeioth/none-ls-autoload.nvim',
-    {
-      'qompassai/blaze-ts.nvim',
-      lazy = true,
-      ft = { 'mojo', '🔥' },
+    },
+    dependencies = {
+      'nvim-treesitter/nvim-treesitter',
+      'williamboman/mason.nvim',
+      'williamboman/mason-lspconfig.nvim',
+      'neovim/nvim-lspconfig',
+      'hrsh7th/cmp-nvim-lsp',
+      'hrsh7th/nvim-cmp',
+      'mfussenegger/nvim-dap',
+      'rcarriga/nvim-dap-ui',
+      'jay-babu/mason-nvim-dap.nvim',
+      'mfussenegger/nvim-dap-python',
+      'nvimtools/none-ls.nvim',
+      'zeioth/none-ls-autoload.nvim',
+    },
+  },
+  {
+    'qompassai/blaze-ts.nvim',
+    ft = { 'mojo', '🔥' },
+    opts = {
+      parser = {
+        install_dir = vim.fn.stdpath('data') .. '/lazy/blaze-ts.nvim/parser',
+        auto_install = true,
+      },
+      nvim_treesitter = {
+        ensure_installed = { 'mojo' },
+        highlight = {
+          enable = true,
+          additional_vim_regex_highlighting = false,
+        },
+        indent = { enable = true },
+        incremental_selection = {
+          enable = true,
+          keymaps = {
+            init_selection = '<C-space>',
+            node_incremental = '<C-space>',
+            node_decremental = '<bs>',
+          },
+        },
+        parser_config = {
+          mojo = {
+            install_info = {
+              url = 'https://github.com/qompassai/blaze-ts.nvim',
+              files = { 'src/parser.c', 'src/grammar.js' },
+              branch = 'main',
+              requires_generate_from_grammar = false,
+            },
+            filetype = { 'mojo', '🔥' },
+            maintainers = { '@qompassai' },
+          },
+        },
+      },
     },
   },
 }
