@@ -110,7 +110,6 @@ return {
       'williamboman/mason.nvim',
       'williamboman/mason-lspconfig.nvim',
       'neovim/nvim-lspconfig',
-      'saghen/blink.cmp',
       'mfussenegger/nvim-dap',
       'rcarriga/nvim-dap-ui',
       'jay-babu/mason-nvim-dap.nvim',
