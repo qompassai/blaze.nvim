@@ -25,7 +25,6 @@ return {
         mojo = {
           enabled = true,
           config = {
-            capabilities = require('blink.cmp').get_lsp_capabilities(),
             handlers = {
               ['textDocument/hover'] = vim.lsp.with(vim.lsp.handlers.hover, {
                 border = 'rounded',
