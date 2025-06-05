@@ -10,6 +10,7 @@ version: "2025-05-01"
 date-released: "2025-05-01"
 repository-code: "https://github.com/qompassai/blaze.nvim"
 license: "AGPL-3.0 AND Qompass-Commercial-Data-Agreement"
+license-url: "https://github.com/qompassai/license/blob/main/LICENSE"
 keywords:
   - AI
   - Quantum
