@@ -8,7 +8,7 @@
 ---@field blaze_no_auto_setup boolean
 local M = {}
 local config = require('blaze.config')
-local mojo_paths = require('mojo.paths')
+local mojo_paths = require('blaze.paths')
 M.defaults = config.defaults
 M.options = config.options
 function M.get_mojo_cmd()

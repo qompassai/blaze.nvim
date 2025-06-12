@@ -1,6 +1,7 @@
--- ~/.GH/Qompass/Lua/Blaze.nvim/lua/blaze/paths.lua
--- ------------------------------------------------
+-- /qompassai/blaze.nvim/lua/blaze/paths.lua
+-- Blaze.nvim paths module
 -- Copyright (C) 2025 Qompass AI, All rights reserved
+-- ------------------------------------------------
 
 local M = {}
 ---@return table: {executable_path, type}
@@ -67,26 +68,10 @@ function M.find_mojo_executable()
   local env_path_separator = is_windows and '\\' or '/'
   local exe_extension = is_windows and '.exe' or ''
   if vim.env.PIXI_HOME then
-    table.insert(
-      paths,
-      vim.env.PIXI_HOME
-        .. env_path_separator
-        .. 'bin'
-        .. env_path_separator
-        .. 'mojo'
-        .. exe_extension
-    )
+    table.insert(paths, vim.env.PIXI_HOME .. env_path_separator .. 'bin' .. env_path_separator .. 'mojo' .. exe_extension)
   end
   if vim.env.MAGIC_HOME then
-    table.insert(
-      paths,
-      vim.env.MAGIC_HOME
-        .. env_path_separator
-        .. 'bin'
-        .. env_path_separator
-        .. 'magic'
-        .. exe_extension
-    )
+    table.insert(paths, vim.env.MAGIC_HOME .. env_path_separator .. 'bin' .. env_path_separator .. 'magic' .. exe_extension)
   end
   for _, path in ipairs(paths) do
     if path and vim.fn.executable(path) == 1 then
@@ -95,17 +80,18 @@ function M.find_mojo_executable()
   end
   return { 'mojo', 'lsp' }
 end
+
 ---@return table: {executable_path}
 function M.find_mojo_lsp()
   local is_windows = vim.fn.has('win32') == 1
   local paths = {}
   local exe_extension = is_windows and '.exe' or ''
-  
+
   if vim.env.HOME then
     table.insert(paths, vim.env.HOME .. '/.local/bin/mojo-lsp-server' .. exe_extension)
     table.insert(paths, vim.env.HOME .. '/.modular/pkg/packages.modular.com_mojo/bin/mojo-lsp-server' .. exe_extension)
   end
-  
+
   table.insert(paths, 'mojo-lsp-server' .. exe_extension)
   for _, path in ipairs(paths) do
     if path and vim.fn.executable(path) == 1 then
@@ -125,4 +111,3 @@ function M.get_all_paths()
 end
 
 return M
-
