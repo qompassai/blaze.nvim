@@ -1,6 +1,7 @@
 -- /qompassai/blaze.nvim/lua/blaze/dap.lua
--- -----------------------------------------------
+-- Qompass AI Blaze.nvim DAP Module
 -- Copyright (C) 2025 Qompass AI, All rights reserved
+-----------------------------------------------------
 local M = {}
 local function find_mojo_executable()
   local possible_paths = {
@@ -16,7 +17,7 @@ local function find_mojo_executable()
   end
   return 'mojo'
 end
-function M.setup()
+function M.blaze_dap()
   local has_dap, dap = pcall(require, 'dap')
   if not has_dap then
     return

@@ -1,12 +1,12 @@
--- /qompassai/blaze.nvim/lua/blaze/linting.lua
+-- /qompassai/blaze.nvim/lua/blaze/lint.lua
 -- ------------------------------------------------------
 -- Copyright (C) 2025 Qompass AI, All rights reserved
 local M = {}
-function M.setup()
+function M.blaze_lint()
   local ok, lint = pcall(require, 'lint')
   if not ok then
     vim.schedule(function()
-      vim.notify('nvim-lint not available', vim.log.levels.WARN)
+      vim.notify('nvim-lint not available', vim.log.levels.INFO)
     end)
     return
   end
