@@ -1,6 +1,7 @@
 -- /qompassai/blaze.nvim/lua/blaze/config.lua
--- ---------------------------------------------
+-- Qompass AI Blaze.nvim Config
 -- Copyright (C) 2025 Qompass AI, All rights reserved
+------------------------------------------------------
 local M = {}
 M.defaults = {
     formatting = {format_on_save = true, line_length = 88},

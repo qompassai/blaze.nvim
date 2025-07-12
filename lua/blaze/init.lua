@@ -61,11 +61,6 @@ local function setup_plugin(opts)
             end
         end
     })
-    M.blaze_treesitter()
-    if opts.enable_linting then M.setup_linting() end
-    if opts.dap and opts.dap.enabled then M.setup_dap() end
-    M._initialized = true
-    return M
 end
 ---@param user_opts table|nil
 function M.setup(user_opts)
