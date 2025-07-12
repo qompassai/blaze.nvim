@@ -8,14 +8,14 @@ function M.blaze_syntax()
   parser_config.mojo = {
     install_info = {
       url = 'https://github.com/qompassai/blaze-ts.nvim',
-      files = { 'src/parser.c', 'src/grammar.js', 'src/scanner.c', 'src/main.zig', 'src/root.zig' },
+      files = { 'src/parser.c', 'src/grammar.js', 'src/node-types.json', 'src/scanner.c', 'src/main.zig', 'src/root.zig', 'tree_sitter/*.h' },
       branch = 'main',
       generate_requires_npm = true,
       requires_generate_from_grammar = true,
     },
     filetype = { 'mojo', '🔥' },
   }
-  vim.filetype.add({
+  vim.filetype({
     extension = { mojo = 'mojo', ['🔥'] = 'mojo' },
     pattern = {
       ['.*%.mojo'] = 'mojo',
@@ -24,9 +24,8 @@ function M.blaze_syntax()
     },
   })
   vim.g.mojo_highlight_all = 1
-  require('nvim-treesitter.configs').setup({
-    ensure_installed = { 'mojo', 'lua', 'vim', 'bash', 'python' },
-    highlight = { enable = true, additional_vim_regex_highlighting = true }
-  })
+  	require("lazy").setup({
+  { "nvim-treesitter/nvim-treesitter", branch = 'master', lazy = false, build = ":TSUpdate" }
+})
 end
 return M
