@@ -105,54 +105,16 @@ return {
       },
     },
     dependencies = {
+      'nvim-lua/plenary.nvim',
       'nvim-treesitter/nvim-treesitter',
-      'williamboman/mason.nvim',
       'williamboman/mason-lspconfig.nvim',
       'neovim/nvim-lspconfig',
       'mfussenegger/nvim-dap',
       'rcarriga/nvim-dap-ui',
       'jay-babu/mason-nvim-dap.nvim',
-      'mfussenegger/nvim-dap-python',
-      'nvimtools/none-ls.nvim',
-      'zeioth/none-ls-autoload.nvim',
-    },
-  },
-  {
-    'qompassai/blaze-ts.nvim',
-    ft = { 'mojo', '🔥' },
-    opts = {
-      parser = {
-        install_dir = vim.fn.stdpath('data') .. '/lazy/blaze-ts.nvim/parser',
-        auto_install = true,
-      },
-      nvim_treesitter = {
-        ensure_installed = { 'mojo' },
-        highlight = {
-          enable = true,
-          additional_vim_regex_highlighting = false,
-        },
-        indent = { enable = true },
-        incremental_selection = {
-          enable = true,
-          keymaps = {
-            init_selection = '<C-space>',
-            node_incremental = '<C-space>',
-            node_decremental = '<bs>',
-          },
-        },
-        parser_config = {
-          mojo = {
-            install_info = {
-              url = 'https://github.com/qompassai/blaze-ts.nvim',
-              files = { 'src/parser.c', 'src/grammar.js' },
-              branch = 'main',
-              requires_generate_from_grammar = false,
+      'qompassai/blaze-ts.nvim',
             },
             filetype = { 'mojo', '🔥' },
             maintainers = { '@qompassai' },
           },
-        },
-      },
-    },
-  },
 }
