@@ -1,20 +1,13 @@
 cff-version: 1.2.0
 title: "blaze.nvim"
-message: "If you use this software, please cite it as below."
 authors:
   - family-names: "Porter"
     given-names: "Matthew A."
     orcid: "https://orcid.org/0000-0002-0302-4812"
     affiliation: "Qompass AI"
-version: "2025-05-01"
-date-released: "2025-05-01"
+version: "2025-07-19"
+date-released: "2025-07-19"
 repository-code: "https://github.com/qompassai/blaze.nvim"
-license: "AGPL-3.0 AND Qompass-Commercial-Data-Agreement"
-license-url: "https://github.com/qompassai/license/blob/main/LICENSE"
-keywords:
-  - AI
-  - Quantum
-  - Post-Quantum Cryptography
-  - Education
-  - Healthcare
+license: "Apache-2.0"
+message: "If you use this software, please cite it as below."
 abstract: "🔥 for Neovim"
