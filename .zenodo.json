@@ -8,12 +8,8 @@
     }
   ],
   "description": "🔥 for Neovim",
-  "license": {
-  "id": "other",
-  "title": "Qompass AI Commercial Distribution License & AGPL 3.0",
-  "url": "https://github.com/qompassai/license"},
   "upload_type": "software",
-  "version": "2025-07-29",
-  "publication_date": "2025-07-29",
+  "version": "2025-07-30",
+  "publication_date": "2025-07-30",
   "access_right": "open"
 }
