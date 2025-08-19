@@ -1,6 +1,6 @@
 -- /qompassai/diver/lua/plugins/lang/mojo.lua
--- ----------------------------------------
 -- copyright (c) 2025 qompass ai, all rights reserved
+-----------------------------------------------------
 return {
   {
     'qompassai/blaze.nvim',
@@ -64,7 +64,8 @@ return {
             },
             root_dir = function(fname)
               local lspconfig = require('lspconfig')
-              return lspconfig.util.find_git_ancestor(fname) or lspconfig.util.find_node_modules_ancestor(fname) or vim.fn.getcwd()
+              return lspconfig.util.find_git_ancestor(fname) or
+                  lspconfig.util.find_node_modules_ancestor(fname) or vim.fn.getcwd()
             end,
             init_options = {},
           },
@@ -113,8 +114,8 @@ return {
       'rcarriga/nvim-dap-ui',
       'jay-babu/mason-nvim-dap.nvim',
       'qompassai/blaze-ts.nvim',
-            },
-            filetype = { 'mojo', '🔥' },
-            maintainers = { '@qompassai' },
-          },
+    },
+    filetype = { 'mojo', '🔥' },
+    maintainers = { '@qompassai' },
+  },
 }

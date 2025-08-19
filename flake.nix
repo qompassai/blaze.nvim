@@ -1,16 +1,26 @@
 # /qompassai/blaze.nvim/flake.nix
-# ---------------------------------------
 # Copyright (C) 2025 Qompass AI, All rights reserved
-
+####################################################
 {
   description = "Blaze.nvim - A modern Neovim plugin for the 🔥(mojo) language.";
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
     flake-utils.url = "github:numtide/flake-utils";
     neovim-flake.url = "github:neovim/neovim?dir=contrib";
+    mojo-dev = {
+      url = "https://developer.modular.com/download/mojo-linux-25.3.0.dev2025040205.tar.gz";
+      flake = false;
+    };
   };
-  outputs = { self, nixpkgs, flake-utils, neovim-flake, ... }@inputs:
-    flake-utils.lib.eachDefaultSystem (system:
+  outputs =
+    { self
+    , nixpkgs
+    , flake-utils
+    , neovim-flake
+    , ...
+    }@inputs:
+    flake-utils.lib.eachDefaultSystem (
+      system:
       let
         pkgs = import nixpkgs {
           inherit system;
@@ -68,8 +78,8 @@
             };
           };
         };
-
-      in {
+      in
+      {
         packages = {
           inherit blaze-nvim neovim-blaze mojo-lsp;
           default = neovim-blaze;
@@ -87,26 +97,31 @@
           type = "app";
           program = "${neovim-blaze}/bin/nvim";
         };
-      });
-} {
+      }
+    );
+}
+{
   description = "Blaze.nvim - Quantum-Ready Mojo Language Support for Neovim";
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
     flake-utils.url = "github:numtide/flake-utils";
     neovim-nightly.url = "github:neovim/neovim?dir=contrib";
-    mojo-dev = {
-      url =
-        "https://developer.modular.com/download/mojo-linux-25.3.0.dev2025040205.tar.gz";
-      flake = false;
-    };
-    quantum-sim = {
+        quantum-sim = {
       url = "github:quantumlib/qsim/v0.9.0";
       inputs.nixpkgs.follows = "nixpkgs";
     };
   };
-  outputs = { self, nixpkgs, flake-utils, neovim-nightly, mojo-dev, quantum-sim
-    , ... }@inputs:
-    flake-utils.lib.eachSystem [ "x86_64-linux" "aarch64-linux" ] (system:
+  outputs =
+    { self
+    , nixpkgs
+    , flake-utils
+    , neovim-nightly
+    , mojo-dev
+    , quantum-sim
+    , ...
+    }@inputs:
+    flake-utils.lib.eachSystem [ "x86_64-linux" "aarch64-linux" ] (
+      system:
       let
         pkgs = import nixpkgs {
           inherit system;
@@ -178,7 +193,8 @@
           };
         };
 
-      in {
+      in
+      {
         packages = {
           inherit blaze-nvim neovim-blaze mojo-lsp;
           quantum-env = pkgs.mkShell {
@@ -202,21 +218,22 @@
             export QSIM_PATH="${quantum-sim.packages.${system}.default}"
             echo "🔥 Blaze.nvim Dev Environment Activated"
             echo " - Mojo SDK: ${pkgs.mojo.version}"
-            echo " - Quantum Sim: ${
-              quantum-sim.packages.${system}.default.version
-            }"
+            echo " - Quantum Sim: ${quantum-sim.packages.${system}.default.version}"
           '';
         };
         apps.default = {
           type = "app";
           program = "${neovim-blaze}/bin/nvim";
         };
-        nixosModules.default = { config, pkgs, ... }: {
-          environment.systemPackages = [ self.packages.${system}.default ];
-          environment.sessionVariables = {
-            MOJO_CACHE_DIR = "${config.xdg.cacheHome}/mojo";
-            QSIM_BIN_PATH = "${quantum-sim.packages.${system}.default}/bin";
+        nixosModules.default =
+          { config, pkgs, ... }:
+          {
+            environment.systemPackages = [ self.packages.${system}.default ];
+            environment.sessionVariables = {
+              MOJO_CACHE_DIR = "${config.xdg.cacheHome}/mojo";
+              QSIM_BIN_PATH = "${quantum-sim.packages.${system}.default}/bin";
+            };
           };
-        };
-      });
+      }
+    );
 }

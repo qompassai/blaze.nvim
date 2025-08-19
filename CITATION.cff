@@ -5,8 +5,8 @@ authors:
     given-names: "Matthew A."
     orcid: "https://orcid.org/0000-0002-0302-4812"
     affiliation: "Qompass AI"
-version: "2025-07-31"
-date-released: "2025-07-31"
+version: "2025-08-19"
+date-released: "2025-08-19"
 repository-code: "https://github.com/qompassai/blaze.nvim"
 message: "If you use this software, please cite it as below."
 abstract: '🔥 for Neovim'
