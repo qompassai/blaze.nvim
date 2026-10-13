@@ -39,7 +39,7 @@
   <br>
   <a href="https://docs.modular.com/mojo"><img src="https://img.shields.io/badge/Mojo-Documentation-blue?style=flat-square" alt="Mojo Documentation"></a>
   <a href="https://www.gnu.org/licenses/agpl-3.0"><img src="https://img.shields.io/badge/License-AGPL%20v3-blue.svg" alt="License: AGPL v3"></a>
-  <a href="./LICENSE-QCDA"><img src="https://img.shields.io/badge/license-Q--CDA-lightgrey.svg" alt="License: Q-CDA"></a>
+  <a href="./LICENSE"><img src="https://img.shields.io/badge/License-Apache%202.0-blue.svg" alt="License: Apache 2.0"></a>
 </p>
   <a href="https://github.com/topics/lua-tutorial">
     <img src="https://img.shields.io/badge/Lua-Tutorials-green?style=flat-square" alt="Lua Tutorials">
@@ -195,17 +195,7 @@ If `keymaps = true`, the following mappings are automatically registered:
 
 ## 📄 License
 
-This plugin is dual-licensed under the AGPL-3 and Q-CDA licenses. See [LICENSE](/.LICENSE-AGPL) & [LICENSE-AGPL](./LICENSE) for details.
-
-Derived from:
-
-* [Modular](https://github.com/modular)
-* [mojo.vim](https://github.com/modularml/mojo.vim) (Apache-2.0)
-* [mojo-syntax](https://github.com/ovikrai/mojo-syntax) (MIT)
-* [pixi](https://github.com/modular/pixi) (BSD-3)
-* [magic-docker](https://github.com/modular/magic-docker)
-
-See [LICENSE-Apache-2.0](./LICENSE-Apache-2.0) and [LICENSES/NOTICE](./LICENSES/NOTICE).
+This project is licensed under the [Apache License, Version 2.0](./LICENSE).
 
 ## 🧭 Attribution
 
